@@ -21,12 +21,14 @@ int	ft_putchar(char c)
 
 int	ft_putstr(char *str)
 {
+	if (!str)
+		return write(1, "(null)", 6);
 	return write(1, str, ft_strlen(str));
 }
 
-int	ft_puthex(unsigned int n, char *hex_base)
+unsigned long	ft_puthex(unsigned long n, char *hex_base)
 {
-	int count;
+	unsigned long count;
 
 	count = 0;
 	if (n > 15)
@@ -35,23 +37,18 @@ int	ft_puthex(unsigned int n, char *hex_base)
 	return count;
 }
 
-int ft_puthex_lower(unsigned int n)
-{
-	return ft_puthex(n, "0123456789abcdef");
-}
-
-int ft_puthex_upper(unsigned int n)
-{
-	return ft_puthex(n, "0123456789ABCDEF");
-}
-
 int ft_putptr(void *ptr)
 {
 	int count;
 
 	count = 0;
-	count += ft_putstr("0x");
-	count += ft_puthex_lower((unsigned long)ptr);
+	if (!ptr)
+		count += write(1, "(nil)", 5);
+	else
+	{
+		count += ft_putstr("0x");
+		count += ft_puthex((unsigned long)ptr, "0123456789abcdef");
+	}
 	return count;
 }
 
@@ -73,9 +70,9 @@ int ft_putnbr(int n)
 	return count;
 }
 
-int ft_putunbr(unsigned int n)
+unsigned int ft_putunbr(unsigned int n)
 {
-	int count;
+	unsigned int count;
 	long nbr;
 
 	count = 0;
