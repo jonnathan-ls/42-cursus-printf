@@ -1,47 +1,51 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/10/26 14:54:44 by jlacerda          #+#    #+#              #
-#    Updated: 2024/10/30 22:35:04 by jlacerda         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+# ************************************************************************** #
+#                                                                            #
+#                                                        :::      ::::::::   #
+#   Makefile                                           :+:      :+:    :+:   #
+#                                                    +:+ +:+         +:+     #
+#   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        #
+#                                                +#+#+#+#+#+   +#+           #
+#   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             #
+#   Updated: 2024/11/15 14:38:20 by jlacerda         ###   ########.fr       #
+#                                                                            #
+# ************************************************************************** #
 
-NAME = libftprintf.a
-
-CC = cc
+COMPILER = cc
 CFLAGS = -Wall -Wextra -Werror
 
-# LIBFT_DIR = libft
-# LIBFT = $(LIBFT_DIR)/libft.a
+OBJDIR = objects
+COMPILE_NAME = libftprintf.a
 
-SOURCES = \
-	ft_printf.c ft_strlen.c ft_printchar.c ft_printstr.c \
-	ft_printhex.c ft_printnbr.c ft_printunbr.c ft_printptr.c
-OBJECTS = $(SOURCES:.c=.o)
+MANDATORY_SOURCES = ft_utils.c ft_printf.c \
+	ft_get_chr.c ft_get_str.c ft_get_hex.c \
+	ft_get_nbr.c ft_get_unbr.c ft_get_ptr.c
 
-all: $(NAME)
+BONUS_SOURCES = ft_utils_bonus.c ft_printf_bonus.c \
+	ft_set_flags.c ft_set_padding.c ft_set_precision.c
 
-$(NAME): $(OBJECTS)
-	ar rcs $@ $^
+MANDATORY_OBJECTS = $(addprefix $(OBJDIR)/, $(MANDATORY_SOURCES:.c=.o))
+BONUS_OBJECTS = $(addprefix $(OBJDIR)/, $(BONUS_SOURCES:.c=.o))
 
-# $(LIBFT):
-# 	cd libft && make && make clean
+all: $(COMPILE_NAME)
 
-%.o: %.c ft_printf.h
-	$(CC) $(CFLAGS) -c $< -o $@
+$(COMPILE_NAME): $(MANDATORY_OBJECTS)
+
+bonus: $(BONUS_OBJECTS) $(MANDATORY_OBJECTS)
+
+$(OBJDIR)/%.o: %.c | $(OBJDIR)
+	$(COMPILER) $(CFLAGS) -c $< -o $@
+	ar rcs $(COMPILE_NAME) $@
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
 clean:
-	rm -f $(OBJECTS)
-#	cd $(LIBFT_DIR) && make clean
+	rm -f $(BONUS_OBJECTS) $(MANDATORY_OBJECTS) 
+	rm -rf $(OBJDIR)
 
 fclean: clean
-	rm -f $(NAME)
-#	cd $(LIBFT_DIR) && make fclean
+	rm -f $(COMPILE_NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re #$(LIBFT)
+.PHONY: all clean fclean re bonus
