@@ -6,7 +6,7 @@
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/10/30 22:45:58 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/11/01 00:32:03 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	ft_printarg(char chr, va_list *args)
 
 int	ft_printf(const char *str, ...)
 {
+	t_flags flags;
 	va_list	args;
 	int		count;
 
@@ -45,6 +46,8 @@ int	ft_printf(const char *str, ...)
 		if (*str == '%')
 		{
 			str++;
+			init_flags(&flags);
+			parse_flags(&str, &flags);
 			count += ft_printarg(*str, &args);
 		}
 		else
