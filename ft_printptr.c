@@ -6,7 +6,7 @@
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/10/30 22:28:58 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/11/02 19:10:20 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 
 int	ft_printptr(void *ptr)
 {
-	int	count;
+	int		count;
 
-	count = 0;
 	if (!ptr)
-		count += write(1, "(nil)", 5);
-	else
-	{
-		count += ft_printstr("0x");
-		count += ft_printhex((unsigned long)ptr, "0123456789abcdef");
-	}
+		return (write(1, "(nil)", 5));
+	count = 0;
+	count += write(1, "0x", 2);
+	count += ft_printhex((unsigned long)ptr, "0123456789abcdef");
 	return (count);
 }

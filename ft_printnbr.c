@@ -6,7 +6,7 @@
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/11/01 00:28:39 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/11/02 18:54:23 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,14 @@
 
 int	ft_printnbr(int n)
 {
+	int		len;
 	int		count;
-	long	nbr;
-	int		padding;
-	char 	nbr_str;
+	char	*nbr_str;
 
 	count = 0;
-	nbr = n;
-	padding = 0;
-	nbr_str = itoa(nbr); // ft_itoa(nbr)
-	if (nbr < 0)
-	{
-		count += ft_printchar('-');
-		nbr = -nbr;
-	}
-	if (nbr > 9)
-		count += ft_printnbr(nbr / 10);
-	count += ft_printchar(nbr % 10 + '0');
+	nbr_str = ft_itoa(n);
+	len = ft_strlen(nbr_str);
+	count += write(1, nbr_str, len);
+	free(nbr_str);
 	return (count);
 }

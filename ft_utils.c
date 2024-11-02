@@ -33,16 +33,16 @@ void parse_flags(const char **format, t_flags *flags)
 	// Parsing da largura mínima
 	if (**format >= '0' && **format <= '9') // ft_isdigit(**format)
 	{
-		flags->width = atoi(*format); // ft_atoi(*format)
-		while (**format >= '0' && **format <= '9')
+		flags->width = ft_atoi(*format);
+		while (ft_isdigit(**format))
 			(*format)++;
 	}
 	// Parsing da precisão
-	if (flags->precision && **format == '.')
-	{
-		(*format)++;
-		flags->precision_value = atoi(*format);
-		while (**format >= '0' && **format <= '9')
-			(*format)++;
- }
+	// if (flags->precision && flags->left_justify)
+	// {
+	// 	(*format)++;
+	// 	flags->precision_value = atoi(*format);
+	// 	while (**format >= '0' && **format <= '9')
+	// 		(*format)++;
+ // }
 }

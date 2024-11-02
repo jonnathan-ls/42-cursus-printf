@@ -97,6 +97,4 @@ int main(void)
 	// 	printf("Result of X: %s \n", compare_functions('X', &n[i]) ? "🟩 OK" : "🟥 KO");
 	// }
 	// return (0);
-	char *s = NULL;
-	printf(s);
 }

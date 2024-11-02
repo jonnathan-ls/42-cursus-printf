@@ -6,7 +6,7 @@
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/10/30 23:15:29 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/11/02 19:23:16 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 
 unsigned int	ft_printunbr(unsigned int n)
 {
-	long			nbr;
-	unsigned int	count;
+	int		len;
+	int		count;
+	char	*nbr_str;
 
-	nbr = n;
 	count = 0;
-	if (nbr > 9)
-		count += ft_printunbr(nbr / 10);
-	count += ft_printchar(nbr % 10 + '0');
+	nbr_str = ft_ultoa(n);
+	len = ft_strlen(nbr_str);
+	count += write(1, nbr_str, len);
+	free(nbr_str);
 	return (count);
 }
