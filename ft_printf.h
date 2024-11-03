@@ -16,31 +16,28 @@
 # include <unistd.h>
 # include <stdlib.h>
 #include "libft/libft.h"
-// BONUS
 
 typedef struct s_flags {
-	int	left_justify; // '-'
-	int	zero_padding; // '0'
-	int	precision;    // '.'
-	int	alternate;    // '#'
-	int	space;        // ' '
-	int	sign;         // '+'
-	int	width;        // largura mínima
-	int	precision_value; // valor da precisão
+	int	left_justify;
+	int	zero_padding;
+	int	precision;
+	int	alternate;
+	int	space;
+	int	sign;
+	int	width;
+	int	precision_value;
 }	t_flags;
 
-void init_flags(t_flags *flags);
-int	print_chr_padding(char c, int	len);
-void parse_flags(const char **format, t_flags *flags);
+void	ft_init_flags(t_flags *flags);
+int		ft_print_pad(int len, t_flags *flags);
+void	ft_parse_flags(const char **format, t_flags *flags);
 
-// mandatory
-
-int				ft_printnbr(int n);
-int				ft_printchar(char c);
-int	ft_printptr(void *ptr);
-int	ft_printstr(char *str);
-unsigned int	ft_printunbr(unsigned int n);
+int				ft_print_nbr(int n);
+int				ft_print_chr(char c);
+int				ft_print_ptr(void *ptr);
+int				ft_print_str(char *str);
 int				ft_printf(const char *str, ...);
-unsigned int	ft_printhex(unsigned int n, char *hex_base);
+unsigned int	ft_print_unbr(unsigned int n);
+unsigned int	ft_print_hex(unsigned int n, char *hex_base);
 
 #endif

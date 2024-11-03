@@ -1,20 +1,20 @@
 #include "ft_printf.h"
 
-void init_flags(t_flags *flags)
+void	ft_init_flags(t_flags *flags)
 {
- flags->left_justify = 0;
- flags->zero_padding = 0;
- flags->precision = 0;
- flags->alternate = 0;
- flags->space = 0;
- flags->sign = 0;
- flags->width = 0;
- flags->precision_value = -1; // -1 indica que a precisão não foi especificada
+	flags->sign = 0;
+	flags->space = 0;
+	flags->width = 0;
+	flags->precision = 0;
+	flags->alternate = 0;
+	flags->left_justify = 0;
+	flags->zero_padding = 0;
+	flags->precision_value = -1;
 }
 
-void parse_flags(const char **format, t_flags *flags)
+void	ft_parse_flags(const char **format, t_flags *flags)
 {
-	while (**format == '-' || **format == '0' || **format == '.' || **format == '#' || **format == ' ' || **format == '+') // ft_strchr("-0.# +", **format)
+	while (ft_strchr("-0.# +", **format))
 	{
 		if (**format == '-')
 			flags->left_justify = 1;
@@ -30,19 +30,10 @@ void parse_flags(const char **format, t_flags *flags)
 			flags->sign = 1;
 		(*format)++;
 	}
-	// Parsing da largura mínima
-	if (**format >= '0' && **format <= '9') // ft_isdigit(**format)
+	if (ft_isdigit(**format))
 	{
 		flags->width = ft_atoi(*format);
 		while (ft_isdigit(**format))
 			(*format)++;
 	}
-	// Parsing da precisão
-	// if (flags->precision && flags->left_justify)
-	// {
-	// 	(*format)++;
-	// 	flags->precision_value = atoi(*format);
-	// 	while (**format >= '0' && **format <= '9')
-	// 		(*format)++;
- // }
 }

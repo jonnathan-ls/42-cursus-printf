@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 all:
 	cd .. && make
-	$(CC) $(CFLAGS) *.c -L .. -lftprintf -o $(NAME)
+	$(CC) $(CFLAGS) *.c -L .. -lftprintf -L ../libft -lft  -o $(NAME)
 	./$(NAME)
 
 fclean:

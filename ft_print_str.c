@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printptr.c                                      :+:      :+:    :+:   */
+/*   ft_print_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/11/02 19:10:20 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/11/02 19:22:10 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printptr(void *ptr)
+int	ft_print_str(char *str)
 {
-	int		count;
+	int	count;
+	int	len;
 
-	if (!ptr)
-		return (write(1, "(nil)", 5));
+	if (!str)
+		return (write(1, "(null)", 6));
 	count = 0;
-	count += write(1, "0x", 2);
-	count += ft_printhex((unsigned long)ptr, "0123456789abcdef");
+	len = ft_strlen(str);
+	count += write(1, str, len);
+
 	return (count);
 }

@@ -18,9 +18,9 @@ CFLAGS = -Wall -Wextra -Werror
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SOURCES = ft_utils.c print_chr_padding.c \
-	ft_printf.c ft_strlen.c ft_printchar.c ft_printstr.c \
-	ft_printhex.c ft_printnbr.c ft_printunbr.c ft_printptr.c
+SOURCES = ft_utils.c ft_print_pad.c \
+	ft_printf.c ft_print_chr.c ft_print_str.c \
+	ft_print_hex.c ft_print_nbr.c ft_print_unbr.c ft_print_ptr.c
 OBJECTS = $(SOURCES:.c=.o)
 
 all: $(LIBFT) $(NAME)

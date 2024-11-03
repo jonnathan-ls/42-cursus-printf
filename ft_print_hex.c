@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printhex.c                                      :+:      :+:    :+:   */
+/*   ft_print_hex.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int	ft_print_hex_nbr(unsigned int n, char *hex_base)
+static int	ft_print_hex_nbr(unsigned int n, char *hex_base)
 {
 	unsigned int	count;
 
@@ -23,15 +23,13 @@ int	ft_print_hex_nbr(unsigned int n, char *hex_base)
 	return (count);
 }
 
-unsigned int	ft_printhex(unsigned int n, char *hex_base)
+unsigned int	ft_print_hex(unsigned int n, char *hex_base)
 {
-	unsigned int	len;
 	unsigned int	count;
 	char			*nbr_str;
 
 	count = 0;
 	nbr_str = ft_ultoa(n);
-	len = ft_strlen(nbr_str);
 	count += ft_print_hex_nbr(n, hex_base);
 	free(nbr_str);
 	return (count);

@@ -12,77 +12,27 @@
 
 #include "ft_printf.h"
 
-int	ft_printarg(char chr, va_list *args, t_flags *flags)
+static int	ft_print_arg(char chr, va_list *args, t_flags *flags)
 {
 	int count;
 
 	count = 0;
 	if (chr == 'c')
-	{
-		count += ft_printchar(va_arg(*args, int));					
-		if (flags->zero_padding)
-			count += print_chr_padding('0', flags->width - 1);
-		else if (flags->left_justify)
-			count += print_chr_padding(' ', flags->width - 1);
-	}
+		count += ft_print_pad(ft_print_chr(va_arg(*args, int)), flags);
 	else if (chr == 's')
-	{
-		count += ft_printstr(va_arg(*args, char *));
-		if (flags->zero_padding)
-			count += print_chr_padding('0', flags->width - count);
-		else if (flags->left_justify)
-			count += print_chr_padding(' ', flags->width - count);
-	}
+		count += ft_print_pad(ft_print_str(va_arg(*args, char *)), flags);
 	else if (chr == 'd' || chr == 'i')
-	{
-		count += ft_printnbr(va_arg(*args, int));
-		if (flags->zero_padding)
-			count += print_chr_padding('0', flags->width - count);
-		else if (flags->left_justify)
-			count += print_chr_padding(' ', flags->width - count);
-	}
+		count += ft_print_pad(ft_print_nbr(va_arg(*args, int)), flags);
 	else if (chr == 'u')
-	{
-		count += ft_printunbr(va_arg(*args, unsigned int));
-		if (flags->zero_padding)
-			count += print_chr_padding('0', flags->width - count);
-		else if (flags->left_justify)
-			count += print_chr_padding(' ', flags->width - count);
-	}
+		count += ft_print_pad(ft_print_unbr(va_arg(*args, unsigned int)), flags);
 	else if (chr == 'x')
-	{
-		count += ft_printhex(va_arg(*args, unsigned int), "0123456789abcdef");
-		if (flags->zero_padding)
-			count += print_chr_padding('0', flags->width - count);
-		else if (flags->left_justify)
-			count += print_chr_padding(' ', flags->width - count);
-	}
+		count += ft_print_pad(ft_print_hex(va_arg(*args, unsigned int), "0123456789abcdef"), flags);
 	else if (chr == 'X')
-	{
-		count += ft_printhex(va_arg(*args, unsigned int), "0123456789ABCDEF");
-		if (flags->zero_padding)
-			count += print_chr_padding('0', flags->width - count);
-		else if (flags->left_justify)
-			count += print_chr_padding(' ', flags->width - count);
-	}
+		count += ft_print_pad(ft_print_hex(va_arg(*args, unsigned int), "0123456789ABCDEF"), flags);
 	else if (chr == 'p')
-	{
-		count += ft_printptr(va_arg(*args, void *));
-		if (flags->zero_padding)
-			count += print_chr_padding('0', flags->width - count);
-		else if (flags->left_justify)
-			count += print_chr_padding(' ', flags->width - count);
-	}
+		count += ft_print_pad(ft_print_ptr(va_arg(*args, void *)), flags);
 	else if (chr == '%')
-	{
-		count += ft_printchar('%');
-		if (flags->zero_padding)
-			count += print_chr_padding('0', flags->width - count);
-		else if (flags->left_justify)
-			count += print_chr_padding(' ', flags->width - count);
-	}
-	else if (chr == '%')
-		return (ft_printchar('%'));
+		count += ft_print_pad(ft_print_chr('%'), flags);
 	return (0);
 }
 
@@ -99,9 +49,9 @@ int	ft_printf(const char *str, ...)
 		if (*str == '%')
 		{
 			str++;
-			init_flags(&flags);
-			parse_flags(&str, &flags);
-			count += ft_printarg(*str, &args, &flags);
+			ft_init_flags(&flags);
+			ft_parse_flags(&str, &flags);
+			count += ft_print_arg(*str, &args, &flags);
 		}
 		else
 			count += write(1, str, 1);
