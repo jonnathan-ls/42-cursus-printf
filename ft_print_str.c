@@ -12,16 +12,9 @@
 
 #include "ft_printf.h"
 
-int	ft_print_str(char *str)
+char	*ft_print_str(char *str)
 {
-	int	count;
-	int	len;
-
 	if (!str)
-		return (write(1, "(null)", 6));
-	count = 0;
-	len = ft_strlen(str);
-	count += write(1, str, len);
-
-	return (count);
+		return ft_strdup("(null)");;
+	return (str);
 }

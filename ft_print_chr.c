@@ -12,11 +12,11 @@
 
 #include "ft_printf.h"
 
-int	ft_print_chr(char c)
+char	*ft_print_chr(char c)
 {
-	int	count;
+	char	*str;
 
-	count = 0;
-	count += write(1, &c, 1);
-	return (count);
+	str = ft_strdup("c");
+	str[0] = c;
+	return (str);
 }

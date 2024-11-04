@@ -19,34 +19,51 @@ static int ft_print_chr_padding(char c, int len, t_flags *flags)
 
 	count = 0;
 	size = (flags->width - len);
-	while (size-- > 0)
+	while (size > 0)
+	{
 		count += write(1, &c, 1);
+		size--;
+	}
 	return (count);
 }
 
-int	ft_print_pad(int len, t_flags *flags)
+int	ft_print_pad(int len, t_flags *flags, int has_sign)
 {
 	int count;
 
 	count = 0;
+	if (flags->is_width_first)
+	{
+		if (flags->precision)
+			count += ft_print_chr_padding(' ', flags->precision_value, flags);
+	}
 	if (flags->zero_padding)
-			count += ft_print_chr_padding('0', len, flags);
-	else if (flags->left_justify)
-		count += ft_print_chr_padding(' ', len, flags);
-	if (flags->alternate)
-		count += write(1, "0x", 2);
+	{
+		if (has_sign)
+			write(1, "-", 1);
+		count += ft_print_chr_padding('0', len + count, flags);
+	}
+	if (flags->left_justify)
+		count += ft_print_chr_padding(' ', len + count, flags);
 	if (flags->space)
-		count += ft_print_chr_padding(' ', len, flags);
+		count += ft_print_chr_padding(' ', len + count, flags);
 	if (flags->sign)
 	{
-		// TODO: Precisa cobrir verificando o	sinal do número em vez de sign flag
-		if (flags->sign == 1)
+		count += ft_print_chr_padding(' ', len + count + 1, flags);
+		if (!has_sign)
 			count += write(1, "+", 1);
-		else
-			count += write(1, "-", 1);
-		count	+= ft_print_chr_padding(' ', len + count, flags);
+	}
+	if (flags->alternate)
+		count += write(1, "0x", 2);
+	if (flags->precision)
+	{
+		if (has_sign)
+			write(1, "-0", 2);
+		count += ft_print_chr_padding('0', len + count, flags);
 	}
 	if (flags->width)
 		count += ft_print_chr_padding(' ', len + count, flags);
+	if (has_sign && !flags->left_justify && !flags->precision && !flags->zero_padding)
+			count += write(1, "-", 1);
 	return (count);
 }

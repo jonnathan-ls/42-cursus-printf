@@ -12,16 +12,10 @@
 
 #include "ft_printf.h"
 
-int	ft_print_nbr(int n)
+char	*ft_print_nbr(int n)
 {
-	int		len;
-	int		count;
 	char	*nbr_str;
 
-	count = 0;
 	nbr_str = ft_itoa(n);
-	len = ft_strlen(nbr_str);
-	count += write(1, nbr_str, len);
-	free(nbr_str);
-	return (count);
+	return (nbr_str);
 }

@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 #include "libft/libft.h"
+#include <stdio.h>  // REMOVER 
 
 typedef struct s_flags {
 	int	left_justify;
@@ -25,19 +26,21 @@ typedef struct s_flags {
 	int	space;
 	int	sign;
 	int	width;
+	int is_width_first;
 	int	precision_value;
 }	t_flags;
 
 void	ft_init_flags(t_flags *flags);
-int		ft_print_pad(int len, t_flags *flags);
+int		ft_print_pad(int len, t_flags *flags, int has_sign);
 void	ft_parse_flags(const char **format, t_flags *flags);
 
-int				ft_print_nbr(int n);
-int				ft_print_chr(char c);
-int				ft_print_ptr(void *ptr);
-int				ft_print_str(char *str);
-int				ft_printf(const char *str, ...);
-unsigned int	ft_print_unbr(unsigned int n);
-unsigned int	ft_print_hex(unsigned int n, char *hex_base);
+char	*ft_print_nbr(int n);
+char	*ft_print_chr(char c);
+char	*ft_print_ptr(void *ptr);
+char	*ft_print_str(char *str);
+char	*ft_print_unbr(unsigned int n);
+char	*ft_print_hex(unsigned int n, char *hex_base);
+
+int	ft_printf(const char *str, ...);
 
 #endif

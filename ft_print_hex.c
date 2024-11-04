@@ -12,25 +12,43 @@
 
 #include "ft_printf.h"
 
-static int	ft_print_hex_nbr(unsigned int n, char *hex_base)
+static int	ft_get_hex_nbr_size(unsigned int n)
 {
 	unsigned int	count;
 
 	count = 0;
-	if (n > 15)
-		count += ft_print_hex_nbr(n / 16, hex_base);
-	count += write(1, &hex_base[n % 16], 1);
+	while (n > 15)
+	{
+		n = n / 16;
+		count++;
+	}
+	count++;
 	return (count);
 }
 
-unsigned int	ft_print_hex(unsigned int n, char *hex_base)
+static char	*ft_get_hex_nbr(unsigned int n, char *hex_base)
 {
-	unsigned int	count;
 	char			*nbr_str;
+	unsigned int	nbr_len;
 
-	count = 0;
-	nbr_str = ft_ultoa(n);
-	count += ft_print_hex_nbr(n, hex_base);
-	free(nbr_str);
-	return (count);
+	nbr_len = ft_get_hex_nbr_size(n);
+	nbr_str = malloc(nbr_len + 1);
+	if (!nbr_str)
+		return (NULL);
+	nbr_str[nbr_len] = '\0';
+	while (nbr_len > 0)
+	{
+		nbr_str[nbr_len - 1] = hex_base[n % 16];
+		n /= 16;
+		nbr_len--;
+	}
+	return (nbr_str);
+}
+
+char	*ft_print_hex(unsigned int n, char *hex_base)
+{
+	char	*nbr_str;
+
+	nbr_str = ft_get_hex_nbr(n, hex_base);
+	return (nbr_str);
 }
