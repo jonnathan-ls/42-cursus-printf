@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char	*ft_print_unbr(unsigned int n)
+char	*ft_print_unbr(unsigned long n)
 {
 	char	*nbr_str;
 

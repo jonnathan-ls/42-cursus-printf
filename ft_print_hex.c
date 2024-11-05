@@ -12,9 +12,9 @@
 
 #include "ft_printf.h"
 
-static int	ft_get_hex_nbr_size(unsigned int n)
+static int	ft_get_hex_nbr_size(unsigned long n)
 {
-	unsigned int	count;
+	unsigned long	count;
 
 	count = 0;
 	while (n > 15)
@@ -26,10 +26,10 @@ static int	ft_get_hex_nbr_size(unsigned int n)
 	return (count);
 }
 
-static char	*ft_get_hex_nbr(unsigned int n, char *hex_base)
+static char	*ft_get_hex_nbr(unsigned long n, char *hex_base)
 {
 	char			*nbr_str;
-	unsigned int	nbr_len;
+	unsigned long	nbr_len;
 
 	nbr_len = ft_get_hex_nbr_size(n);
 	nbr_str = malloc(nbr_len + 1);
@@ -45,7 +45,7 @@ static char	*ft_get_hex_nbr(unsigned int n, char *hex_base)
 	return (nbr_str);
 }
 
-char	*ft_print_hex(unsigned int n, char *hex_base)
+char	*ft_print_hex(unsigned long n, char *hex_base)
 {
 	char	*nbr_str;
 

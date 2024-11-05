@@ -11,7 +11,7 @@ int main(void)
 	unsigned int ui = 2024;
 
 	int c[] = { INT_MIN, -42, 0, 42, INT_MAX };
-	long n[] = { LONG_MIN, -42, 0, 42, LONG_MAX };
+	int n[] = { INT_MIN, -42, 0, 42, INT_MAX };
 	char *s[] = { "Hello, World!", "\x23", "\b", "42", "" };
 
 
@@ -23,20 +23,33 @@ int main(void)
 		e = printf("|%c|\n", c[index]);
 		printf("\nFT___Printf\n");
 		r = ft_printf("|%c|\n", c[index]);
-		printf("is equal? %s\n", e == r ?	"yes" : "no");
+		printf("is equal? %s\n", e == r ?	"🟩" : "🟥");
 		printf("e =	%d, r = %d\n", e, r);
 	}
 
-	// for (int index = 0; index < 5; index++)
-	// {
-	// 	printf("|%d|\n", n[index]);
-	// 	printf("|%i|\n", n[index]);
-	// 	printf("|%u|\n", n[index]);
+	for (int index = 0; index < 5; index++)
+	{
+		printf("\nPrintf\n");
+		e = printf("|%d|\n", n[index]);
+		printf("\nFT___Printf\n");
+		r = ft_printf("|%d|\n", n[index]);
+		printf("is equal? %s\n", e == r ?	"🟩" : "🟥");
+		printf("e =	%d, r = %d\n", e, r);
 		
-	// 	ft_printf("|%d|\n", n[index]);
-	// 	ft_printf("|%i|\n", n[index]);
-	// 	ft_printf("|%u|\n", n[index]);
-	// }
+		printf("\nPrintf\n");
+		e = printf("|%i|\n", n[index]);
+		printf("\nFT___Printf\n");
+		r = ft_printf("|%i|\n", n[index]);
+		printf("is equal? %s\n", e == r ?	"🟩" : "🟥");
+		printf("e =	%d, r = %d\n", e, r);
+
+		printf("\nPrintf\n");
+		e = printf("|%u|\n", n[index]);
+		printf("\nFT___Printf\n");
+		r = ft_printf("|%u|\n", n[index]);
+		printf("is equal? %s\n", e == r ?	"🟩" : "🟥");
+		printf("e =	%d, r = %d\n", e, r);
+	}
 
 	for (int index = 0; index < 5; index++)
 	{
@@ -44,17 +57,15 @@ int main(void)
 		e = printf("|%s|\n", s[index]);
 		printf("\nFT__Printf\n");
 		r = ft_printf("|%s|\n", s[index]);
-		printf("is equal? %s\n", e == r ?	"yes" : "no");
+		printf("is equal? %s\n", e == r ?	"🟩" : "🟥");
 		printf("e =	%d, r = %d\n", e, r);
 		
 		
 		printf("\nPrintf\n");
 		e = printf("|%p|\n", s[index]);
-		
 		printf("\nFT__Printf\n");
 		r = ft_printf("|%p|\n", s[index]);		
-		printf("is equal? %s\n", e == r ?	"yes" : "no");
-		
+		printf("is equal? %s\n", e == r ?	"🟩" : "🟥");
 		printf("e =	%d, r = %d\n", e, r);
 	}
 

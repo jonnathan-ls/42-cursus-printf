@@ -15,9 +15,11 @@
 char	*ft_print_ptr(void *ptr)
 {
 	char	*nbr_str;
+	char *str;
 
 	if (!ptr)
 		return ft_strdup("(nil)");
+	str = ft_strdup("0x");
 	nbr_str = ft_print_hex((unsigned long)ptr, "0123456789abcdef");
-	return (nbr_str);
+	return (ft_strjoin(str, nbr_str));
 }

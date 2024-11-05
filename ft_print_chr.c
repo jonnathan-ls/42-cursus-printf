@@ -16,7 +16,8 @@ char	*ft_print_chr(char c)
 {
 	char	*str;
 
-	str = ft_strdup("c");
+	str = malloc(2);
 	str[0] = c;
+	str[1] = 0;
 	return (str);
 }

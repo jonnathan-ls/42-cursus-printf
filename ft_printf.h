@@ -38,8 +38,8 @@ char	*ft_print_nbr(int n);
 char	*ft_print_chr(char c);
 char	*ft_print_ptr(void *ptr);
 char	*ft_print_str(char *str);
-char	*ft_print_unbr(unsigned int n);
-char	*ft_print_hex(unsigned int n, char *hex_base);
+char	*ft_print_unbr(unsigned long n);
+char	*ft_print_hex(unsigned long n, char *hex_base);
 
 int	ft_printf(const char *str, ...);
 

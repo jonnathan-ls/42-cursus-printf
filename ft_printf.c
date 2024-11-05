@@ -45,11 +45,12 @@ static int ft_process_padding(char chr, va_list *args, t_flags *flags)
 	str_arg	= ft_print_arg(chr, args);
 	str_len = ft_strlen(str_arg);
 	has_sign = str_arg[0] == '-';
-	if (str_len == 0 && flags->precision)
-	{
-		write(1, "", 1);
-		return	(0);
-	}
+	// if (str_len == 0) // TODO PRECISA mesmo?
+	// {
+	// 	// printf("\nstr_len: %d\n", str_len);
+	// 	count += write(1, str, 1);
+	// 	return	(count);
+	// }
 	if (flags->left_justify) // TODO Alterar para right justify
 	{
 		count	+= write(1, str_arg, str_len);
@@ -57,10 +58,14 @@ static int ft_process_padding(char chr, va_list *args, t_flags *flags)
 	}
 	else
 	{
-		if (has_sign)
-			str_arg++;
 		count	+= ft_print_pad(str_len, flags, has_sign);
-		if (flags->precision)
+		// flags->precision_value = chr == 's' ? flags->precision_value : str_len;
+		if (has_sign)
+		{
+			count -= 1;
+			str_arg++;
+		}
+		if (flags->precision && flags->precision_value < str_len)
 			count += write(1, str_arg, flags->precision_value);
 		else
 			count += write(1, str_arg, str_len);
@@ -76,7 +81,7 @@ int	ft_printf(const char *str, ...)
 
 	count = 0;
 	va_start(args, str);
-	while (*str !=	'\0')
+	while (*str)
 	{
 		if (*str == '%')
 		{

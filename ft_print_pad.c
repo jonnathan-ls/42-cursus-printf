@@ -58,7 +58,7 @@ int	ft_print_pad(int len, t_flags *flags, int has_sign)
 	if (flags->precision)
 	{
 		if (has_sign)
-			write(1, "-0", 2);
+			count -= write(1, "-", 1);
 		count += ft_print_chr_padding('0', len + count, flags);
 	}
 	if (flags->width)
