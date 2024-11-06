@@ -24,7 +24,7 @@ static char	*ft_get_arg(char chr, va_list *args)
 	if (chr == 'p')
 		str_arg = ft_get_ptr(va_arg(*args, void *));
 	if (chr == 'd' || chr == 'i')
-		str_arg = ft_get_nbr(va_arg(*args, int));
+		str_arg = ft_get_unbr(va_arg(*args, int));
 	if (chr == 'u')
 		str_arg = ft_get_unbr(va_arg(*args, unsigned int));
 	if (chr == 'x')
