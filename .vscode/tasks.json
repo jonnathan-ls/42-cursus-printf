@@ -13,7 +13,7 @@
                 "ft_print_str.c",
                 "ft_get_hex.c",
                 "ft_get_nbr.c",
-                "ft_get_nbr.c",
+                "ft_get_unbr.c",
                 "ft_get_ptr.c",
                 "ft_print_pad.c",
                 "-L",
