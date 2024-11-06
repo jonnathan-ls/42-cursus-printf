@@ -15,32 +15,31 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>
-#include "libft/libft.h"
-#include <stdio.h>  // REMOVER 
+# include "libft/libft.h"
 
 typedef struct s_flags {
-	int	left_justify;
-	int	zero_padding;
-	int	precision;
-	int	alternate;
-	int	space;
-	int	sign;
-	int	width;
-	int is_width_first;
-	int	precision_value;
+	int		sign;
+	int		width;
+	int		space;
+	int		precision;
+	int		alternate;
+	char	type_arg;
+	int		zero_padding;
+	int		right_justify;
+	int		precision_value;
 }	t_flags;
 
 void	ft_init_flags(t_flags *flags);
 int		ft_print_pad(int len, t_flags *flags, int has_sign);
 void	ft_parse_flags(const char **format, t_flags *flags);
 
-char	*ft_print_nbr(int n);
-char	*ft_print_chr(char c);
-char	*ft_print_ptr(void *ptr);
-char	*ft_print_str(char *str);
-char	*ft_print_unbr(unsigned long n);
-char	*ft_print_hex(unsigned long n, char *hex_base);
+char	*ft_get_nbr(int n);
+char	*ft_get_chr(char c);
+char	*ft_get_ptr(void *ptr);
+char	*ft_get_str(char *str);
+char	*ft_get_unbr(unsigned long n);
+char	*ft_get_hex(unsigned long n, char *hex_base);
 
-int	ft_printf(const char *str, ...);
+int		ft_printf(const char *str, ...);
 
 #endif

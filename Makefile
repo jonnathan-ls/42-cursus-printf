@@ -19,8 +19,8 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 SOURCES = ft_utils.c ft_print_pad.c \
-	ft_printf.c ft_print_chr.c ft_print_str.c \
-	ft_print_hex.c ft_print_nbr.c ft_print_unbr.c ft_print_ptr.c
+	ft_printf.c ft_get_chr.c ft_get_str.c \
+	ft_get_hex.c ft_get_nbr.c ft_get_unbr.c ft_get_ptr.c
 OBJECTS = $(SOURCES:.c=.o)
 
 all: $(LIBFT) $(NAME)

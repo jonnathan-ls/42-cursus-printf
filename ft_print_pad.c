@@ -12,10 +12,10 @@
 
 #include "ft_printf.h"
 
-static int ft_print_chr_padding(char c, int len, t_flags *flags)
+static int ft_get_chr_padding(char c, int len, t_flags *flags)
 {
 	int	count;
-	int size;
+	int	size;
 
 	count = 0;
 	size = (flags->width - len);
@@ -27,43 +27,63 @@ static int ft_print_chr_padding(char c, int len, t_flags *flags)
 	return (count);
 }
 
-int	ft_print_pad(int len, t_flags *flags, int has_sign)
+static int	ft_print_zero_padding(int len, t_flags *flags, int has_sign)
 {
-	int count;
+	int	count;
 
 	count = 0;
-	if (flags->is_width_first)
-	{
-		if (flags->precision)
-			count += ft_print_chr_padding(' ', flags->precision_value, flags);
-	}
-	if (flags->zero_padding)
-	{
-		if (has_sign)
-			write(1, "-", 1);
-		count += ft_print_chr_padding('0', len + count, flags);
-	}
-	if (flags->left_justify)
-		count += ft_print_chr_padding(' ', len + count, flags);
-	if (flags->space)
-		count += ft_print_chr_padding(' ', len + count, flags);
+	if (has_sign)
+		count -= write(1, "-", 1);
+	count += ft_get_chr_padding('0', len + count, flags);
+	return (count);
+}
+
+static int	ft_print_sign_padding(int len, t_flags *flags, int has_sign)
+{
+	int	count;
+
+	count = 0;
 	if (flags->sign)
 	{
-		count += ft_print_chr_padding(' ', len + count + 1, flags);
+		count += ft_get_chr_padding(' ', len + count + 1, flags);
 		if (!has_sign)
 			count += write(1, "+", 1);
 	}
+	return (count);
+}
+
+static int	ft_print_precision_padding(int len, t_flags *flags, int has_sign)
+{
+	int	count;
+
+	count = 0;
+	if (has_sign)
+			count -= write(1, "-", 1);
+		if (len > 0)
+			count += ft_get_chr_padding('0', len + count, flags);
+	return (count);
+}
+
+int	ft_print_pad(int len, t_flags *flags, int has_sign)
+{
+	int	count;
+
+	count = 0;
+	if (flags->zero_padding && !ft_strchr("csp", flags->type_arg))
+		count += ft_print_zero_padding(len, flags, has_sign);
+	if (flags->right_justify)
+		count += ft_get_chr_padding(' ', len + count, flags);
+	if (flags->space)
+		count += ft_get_chr_padding(' ', len + count, flags);
+	if (flags->sign)
+		count += ft_print_sign_padding(len, flags, has_sign);
 	if (flags->alternate)
 		count += write(1, "0x", 2);
 	if (flags->precision)
-	{
-		if (has_sign)
-			count -= write(1, "-", 1);
-		count += ft_print_chr_padding('0', len + count, flags);
-	}
+		count += ft_print_precision_padding(len, flags, has_sign);
 	if (flags->width)
-		count += ft_print_chr_padding(' ', len + count, flags);
-	if (has_sign && !flags->left_justify && !flags->precision && !flags->zero_padding)
-			count += write(1, "-", 1);
+		count += ft_get_chr_padding(' ', len + count, flags);
+	if (has_sign && !flags->right_justify && !flags->precision && !flags->zero_padding)
+		count += write(1, "-", 1);
 	return (count);
 }

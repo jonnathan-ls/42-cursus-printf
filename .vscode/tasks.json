@@ -1,0 +1,34 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build test_flag",
+            "type": "shell",
+            "command": "cc",
+            "args": [
+                "test_flag.c",
+                "ft_printf.c",
+                "ft_utils.c",
+                "ft_get_chr.c",
+                "ft_print_str.c",
+                "ft_get_hex.c",
+                "ft_get_nbr.c",
+                "ft_get_nbr.c",
+                "ft_get_ptr.c",
+                "ft_print_pad.c",
+                "-L",
+                ".",
+                "-lftprintf",
+                "-L",
+                "libft",
+                "-lft",
+                "-g"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"]
+        }
+    ]
+}

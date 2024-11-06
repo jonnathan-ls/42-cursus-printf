@@ -1,100 +1,325 @@
-#include <stdio.h>
-#include <limits.h>
 #include "../ft_printf.h"
 
-int	compare_functions(char type, void *param)
-{
-	int	expected;
-	int	result;
-
-	if (type == 'c')
-	{
-		expected =	printf("printf   : %c \t\t\t", *(char *)param);
-		result = ft_printf("ft_printf: %c \t\t\t", *(char *)param);
-	}
-	else if (type == 's')
-	{
-		expected =	printf("printf   : %s \t", (unsigned char *)param);
-		result = ft_printf("ft_printf: %s \t", (unsigned char *)param);
-		if (expected <= 15) write(1, "\t\t", 2);
-		if (result <= 15) printf("\t\t");
-		if (!param)
-		{
-			write(1, "\t", 2);
-			printf("\t");
-		}
-	}
-	else if (type == 'd' || type == 'i')
-	{
-		expected =	printf("printf   : %a \t\t\t", *(double *)param);
-		result = ft_printf("ft_printf: %a \t\t\t", *(double *)param);
-	}
-	else if (type == 'x')
-	{
-		expected =	printf("printf   : %x \t\t", *(unsigned int *)param);
-		result = ft_printf("ft_printf: %x \t\t", *(unsigned int *)param);
-		if (expected < 20) write(1, "\t", 2);
-		if (result < 20) printf("\t");
-	}
-	else if (type == 'X')
-	{
-		expected =	printf("printf   : %X \t\t", *(unsigned int *)param);
-		result = ft_printf("ft_printf: %X \t\t", *(unsigned int *)param);
-		if (expected < 20) write(1, "\t", 2);
-		if (result < 20) printf("\t");
-	}
-	else if (type == 'p')
-	{
-		expected =	printf("printf   : %p \t", param);
-		result = ft_printf("ft_printf: %p \t", param);
-		if (expected < 25){
-			write(1, "\t", 2);
-			printf("\t");
-		}
-	}
-	else if (type == 'u')
-	{
-		expected =	printf("printf   : %u \t\t", *(unsigned int *)param);
-		result = ft_printf("ft_printf: %u \t\t", *(unsigned int *)param);
-		if (expected < 20) write(1, "\t", 2);
-		if (result < 20) printf("\t");
-	}
-	else if (type == '%')
-	{
-		expected =	printf("printf   : %% \t\t\t");
-		result = ft_printf("ft_printf: %% \t\t\t");
-	}
-	else
-	{
-		printf("Invalid type\n");
-		return 0;
-	}
-	return (expected == result);
-}
+#include <stdio.h>
+#include <limits.h>
+#include <float.h>
 
 int main(void)
 {
-	int c[] = { INT_MIN, -42, 0, 42, INT_MAX };
+	setvbuf(stdout, NULL, _IONBF, 0); // Define o buffer de saída como não-bufferizado
+
+	int i = 42;
+	unsigned int ui = 2024;
+	char *str =	"Hello, World!";
+
 	int n[] = { INT_MIN, -42, 0, 42, INT_MAX };
-	char *s[] = { "Hello, World!", "\x23", "\b", "42", "", NULL };
+	char c[] = { (char)INT_MIN, -42, 0, 42, (char)INT_MAX };
+	char *s[] = { "Hello, World!", "\x23", "\b", "42", "" };
 
-	for (int i = 0; i < 5; i++)
-		printf("Result of c: %s \n", compare_functions('c', &c[i]) ? "🟩 OK" : "🟥 KO");
+	int result; int expected; char *format = NULL; char chr_arg; int int_arg; char *str_arg;
 
-	for (int i = 0; i < 5; i++)
+	printf("\n[ Casos de Testes sem uso das Flags ]:\n");
+	
+	for (int index = 0; index < 5; index++)
 	{
-		printf("Result of s: %s \n", compare_functions('s', s[i]) ? "🟩 OK" : "🟥 KO");
-		printf("Result of p: %s \n", compare_functions('p', s[i]) ? "🟩 OK" : "🟥 KO");
-		printf("Result of %%: %s \n", compare_functions('%', s[i]) ? "🟩 OK" : "🟥 KO");
+		chr_arg = c[index];
+
+		format = ft_strdup("|%c|");
+		printf("\nOriginal ==> "); expected = printf(format, chr_arg);
+		printf("\nReplica  ==> "); result = ft_printf(format, chr_arg);
+		printf("\nAre equal? %s", expected == result ? "🟩" : "🟥");
+		printf(" O:%d R:%d\n", expected, result);
+		free(format);
 	}
 
-	for (int i = 0; i < 5; i++)
+	for (int index = 0; index < 5; index++)
 	{
-		printf("Result of d: %s \n", compare_functions('d', &n[i]) ? "🟩 OK" : "🟥 KO");
-		printf("Result of i: %s \n", compare_functions('i', &n[i]) ? "🟩 OK" : "🟥 KO");
-		printf("Result of u: %s \n", compare_functions('u', &n[i]) ? "🟩 OK" : "🟥 KO");
-		printf("Result of x: %s \n", compare_functions('x', &n[i]) ? "🟩 OK" : "🟥 KO");
-		printf("Result of X: %s \n", compare_functions('X', &n[i]) ? "🟩 OK" : "🟥 KO");
+		int_arg = n[index];
+
+		format = ft_strdup("|%d|");
+		printf("\nOriginal ==> "); expected = printf(format, int_arg);
+		printf("\nReplica  ==> "); result = ft_printf(format, int_arg);
+		printf("\nAre equal? %s", expected == result ? "🟩" : "🟥");
+		printf(" O:%d R:%d\n", expected, result);
+		free(format);
+
+		format = ft_strdup("|%i|");
+		printf("\nOriginal ==> "); expected = printf(format, int_arg);
+		printf("\nReplica  ==> "); result = ft_printf(format, int_arg);
+		printf("\nAre equal? %s", expected == result ? "🟩" : "🟥");
+		printf(" O:%d R:%d\n", expected, result);
+		free(format);
+		
+		format = ft_strdup("|%u|");
+		printf("\nOriginal ==> "); expected = printf(format, int_arg);
+		printf("\nReplica  ==> "); result = ft_printf(format, int_arg);
+		printf("\nAre equal? %s", expected == result ? "🟩" : "🟥");
+		printf(" O:%d R:%d\n", expected, result);
 	}
+
+	for (int index = 0; index < 5; index++)
+	{
+		str_arg =	s[index];
+
+		format = ft_strdup("|%s|");
+		printf("\nOriginal ==> "); expected = printf(format, str_arg);
+		printf("\nReplica  ==> "); result = ft_printf(format, str_arg);
+		printf("\nAre equal? %s", expected == result ? "🟩" : "🟥");
+		printf(" O:%d R:%d\n", expected, result);
+		free(format);
+			
+		format = ft_strdup("|%p|");
+		printf("\nOriginal ==> "); expected = printf(format, str_arg);
+		printf("\nReplica  ==> "); result = ft_printf(format, str_arg);
+		printf("\nAre equal? %s", expected == result ? "🟩" : "🟥");
+		printf(" O:%d R:%d\n", expected, result);
+	}
+
+	// Testando SEM Flag
+	printf("\nPrintf SEM Flag:\n");
+	printf("|%c|\n", 'c');
+	printf("|%s|\n", str);
+	printf("|%p|\n", str);
+	printf("|%d|\n", i);
+	printf("|%d|\n", -i);
+	printf("|%i|\n", i);
+	printf("|%i|\n", -i);
+	printf("|%u|\n", i);
+	printf("|%u|\n", -i);
+	printf("|%x|\n", ui);
+	printf("|%X|\n", ui);
+
+	printf("\nFT_Printf SEM Flag:\n");
+	printf("|%c|\n", 'c');
+	printf("|%s|\n", str);
+	printf("|%p|\n", str);
+	printf("|%d|\n", i);
+	printf("|%d|\n", -i);
+	printf("|%i|\n", i);
+	printf("|%i|\n", -i);
+	printf("|%u|\n", i);
+	printf("|%u|\n", -i);
+	printf("|%x|\n", ui);
+	printf("|%X|\n", ui);
+
+	// Testando flag '-'
+	printf("\nprintf Flag '-':\n");
+	printf("|%-20c|\n", 'c');
+	printf("|%-20s|\n", str);
+	printf("|%-20p|\n", str);
+	printf("|%-20d|\n", i);
+	printf("|%-20d|\n", -i);
+	printf("|%-20i|\n", i);
+	printf("|%-20i|\n", -i);
+	printf("|%-20u|\n", i);
+	printf("|%-20u|\n", -i);
+	printf("|%-20x|\n", ui);
+	printf("|%-20X|\n", ui);
+
+	printf("\nFt_printf flag '-':\n");
+	ft_printf("|%-20c|\n", 'c');
+	ft_printf("|%-20s|\n", str);
+	ft_printf("|%-20p|\n", str);
+	ft_printf("|%-20d|\n", i);
+	ft_printf("|%-20d|\n", -i);
+	ft_printf("|%-20i|\n", i);
+	ft_printf("|%-20i|\n", -i);
+	ft_printf("|%-20u|\n", i);
+	ft_printf("|%-20u|\n", -i);
+	ft_printf("|%-20x|\n", ui);
+	ft_printf("|%-20X|\n", ui);
+
+	// // Testando flag '0'
+	printf("\nprintf Flag '0':\n");
+	printf("|%020d|\n", i);
+	printf("|%020d|\n", -i);
+	printf("|%020i|\n", i);
+	printf("|%020i|\n", -i);
+	printf("|%020u|\n", i);
+	printf("|%020u|\n", -i);
+	printf("|%020x|\n", ui);
+	printf("|%020X|\n", ui);
+
+	printf("\nFt_printf flag '0':\n");
+	ft_printf("|%020d|\n", i);
+	ft_printf("|%020d|\n", -i);
+	ft_printf("|%020i|\n", i);
+	ft_printf("|%020i|\n", -i);
+	ft_printf("|%020u|\n", i);
+	ft_printf("|%020u|\n", -i);
+	ft_printf("|%020x|\n", ui);
+	ft_printf("|%020X|\n", ui);
+
+	// // Testando flag '.'
+	printf("\nPrint Flag '.':\n");
+	printf("|%.2s|\n", str);
+	printf("|%.20d|\n", i);
+	printf("|%.20d|\n", -i);
+	printf("|%.20i|\n", i);
+	printf("|%.20i|\n", -i);
+	printf("|%.20u|\n", i);
+	printf("|%.20u|\n", -i);
+	printf("|%.20x|\n", ui);
+	printf("|%.20X|\n", ui);
+
+	printf("\nFT_Printf Flag '.':\n");
+	ft_printf("|%.2s|\n", str);
+	ft_printf("|%.20d|\n", i);
+	ft_printf("|%.20d|\n", -i);
+	ft_printf("|%.20i|\n", i);
+	ft_printf("|%.20i|\n", -i);
+	ft_printf("|%.20u|\n", i);
+	ft_printf("|%.20u|\n", -i);
+	ft_printf("|%.20x|\n", ui);
+	ft_printf("|%.20X|\n", ui);
+
+	// // Testando flag '#'
+	printf("\nPrint Flag '#':\n");
+	printf("|%#x|\n", ui);
+	printf("|%#X|\n", ui);
+
+	printf("\nFT_Print Flag '#':\n");
+	ft_printf("|%#x|\n", ui);
+	ft_printf("|%#X|\n", ui);
+
+	// // Testando flag ' '
+	printf("\nPrintf Flag ' ':\n");
+	// printf("|% 20c|\n", 'c');
+	// printf("|% 20s|\n", str);
+	// printf("|% 20p|\n", str);
+	printf("|% 20d|\n", i);
+	printf("|% 20d|\n", -i);
+	printf("|% 20i|\n", i);
+	printf("|% 20i|\n", -i);
+	// printf("|% 20u|\n", i);
+	// printf("|% 20u|\n", -i);
+	// printf("|% 20x|\n", ui);
+	// printf("|% 20X|\n", ui);
+
+	printf("\nFT_Printf Flag ' ':\n");
+	// ft_printf("|% 20c|\n", 'c');
+	// ft_printf("|% 20s|\n", str);
+	// ft_printf("|% 20p|\n", str);
+	ft_printf("|% 20d|\n", i);
+	ft_printf("|% 20d|\n", -i);
+	ft_printf("|% 20i|\n", i);
+	ft_printf("|% 20i|\n", -i);
+	// ft_printf("|% 20u|\n", i);
+	// ft_printf("|% 20u|\n", -i);
+	// ft_printf("|% 20x|\n", ui);
+	// ft_printf("|% 20X|\n", ui);
+
+	// // Testando flag '+'
+	printf("\nPrintf Flag '+':\n");
+	// printf("\nFlag ' ':\n");
+	// printf("|%+20c|\n", 'c');
+	// printf("|%+20s|\n", str);
+	// printf("|%+20p|\n", str);
+	printf("|%+20d|\n", i);
+	printf("|%+20d|\n", -i);
+	printf("|%+20i|\n", i);
+	printf("|%+20i|\n", -i);
+	// printf("|%+20u|\n", i);
+	// printf("|%+20u|\n", -i);
+	// printf("|%+20x|\n", ui);
+	// printf("|%+20X|\n", ui);
+
+	printf("\nFT_Printf Flag '+':\n");
+	// ft_printf("\nFlag ' ':\n");
+	// ft_printf("|%+20c|\n", 'c');
+	// ft_printf("|%+20s|\n", str);
+	// ft_printf("|%+20p|\n", str);
+	ft_printf("|%+20d|\n", i);
+	ft_printf("|%+20d|\n", -i);
+	ft_printf("|%+20i|\n", i);
+	ft_printf("|%+20i|\n", -i);
+	// ft_printf("|%+20u|\n", i);
+	// ft_printf("|%+20u|\n", -i);
+	// ft_printf("|%+20x|\n", ui);
+	// ft_printf("|%+20X|\n", ui);
+
+	// Testando largura mínima
+	printf("\nLargura mínima:\n");
+	printf("\nPrintf Flag 'Largura Minima':\n");
+	printf("|%20c|\n", 'c');
+	printf("|%20s|\n", str);
+	printf("|%20p|\n", str);
+	printf("|%20d|\n", i);
+	printf("|%20d|\n", -i);
+	printf("|%20i|\n", i);
+	printf("|%20i|\n", -i);
+	printf("|%20u|\n", i);
+	printf("|%20u|\n", -i);
+	printf("|%20x|\n", ui);
+	printf("|%20X|\n", ui);
+
+	printf("\nFT_Printf Flag 'Largura Minima':\n");
+	ft_printf("|%20c|\n", 'c');
+	ft_printf("|%20s|\n", str);
+	ft_printf("|%20p|\n", str);
+	ft_printf("|%20d|\n", i);
+	ft_printf("|%20d|\n", -i);
+	ft_printf("|%20i|\n", i);
+	ft_printf("|%20i|\n", -i);
+	ft_printf("|%20u|\n", i);
+	ft_printf("|%20u|\n", -i);
+	ft_printf("|%20x|\n", ui);
+	ft_printf("|%20X|\n", ui);
+
+	// Testando cenários inesperados com flags
+	printf("\nPrintf Cenários inesperados com flags:\n");
+	printf("|%.5s|\n", "");											// String vazia com '0' expected '-'
+	printf("|%-20s|\n", "");											// String vazia com '-'
+	printf("|%20s|\n", "");												// String vazia com largura mínima
+	printf("|%.s|\n", "");												// String vazia com precisão
+	printf("|%20.5s|\n", "");											// String vazia com largura expected precisão
+	printf("|%+d|\n", INT_MAX);								// Valor máximo de int com '+'
+	printf("|%+d|\n", INT_MIN);								// Valor mínimo de int com '+'
+	printf("|%20i|\n", INT_MAX);						// Valor máximo de int com '0'
+	printf("|%20i|\n", INT_MIN);						// Valor mínimo de int com '0'
+	printf("|%20.5d|\n", INT_MAX);						// Valor máximo de int com largura expected precisão
+	printf("|%.5d|\n", INT_MIN);						// Valor mínimo de int com largura expected precisão
+
+	printf("\nFT_Printf Cenários inesperados com flags:\n");
+	ft_printf("|%.5s|\n", "");											// String vazia com '0' expected '-'
+	ft_printf("|%-20s|\n", "");											// String vazia com '-'
+	ft_printf("|%20s|\n", "");												// String vazia com largura mínima
+	ft_printf("|%.s|\n", "");												// String vazia com precisão
+	ft_printf("|%20.5s|\n", "");											// String vazia com largura expected precisão
+	ft_printf("|%+d|\n", INT_MAX);								// Valor máximo de int com '+'
+	ft_printf("|%+d|\n", INT_MIN);								// Valor mínimo de int com '+'
+	ft_printf("|%20i|\n", INT_MAX);						// Valor máximo de int com '0'
+	ft_printf("|%20i|\n", INT_MIN);						// Valor mínimo de int com '0'
+	ft_printf("|%20d|\n", INT_MAX);						// Valor máximo de int com largura expected precisão
+	ft_printf("|%.5d|\n", INT_MIN);						// Valor mínimo de int com largura expected precisão
+
+	// // Testando combinações de flags
+	printf("\nPrintf Combinações de flags:\n");
+	printf("|%-20.s|\n", str);
+	printf("|%-20.5s|\n", str);
+	printf("|%20.5s|\n", str);
+	printf("|%20.5d|\n", i);
+	printf("|%20.5d|\n", -i);
+	printf("|%20.5i|\n", i);
+	printf("|%20.5i|\n", -i);
+	printf("|%20.5u|\n", i);
+	printf("|%20.5u|\n", -i);
+	printf("|%20.5x|\n", ui);
+	printf("|%20.5X|\n", ui);
+
+	printf("\nFT_Printf Combinações de flags:\n");
+	ft_printf("|%-20.s|\n", str);
+	ft_printf("|%-20.5s|\n", str);
+	ft_printf("|%20.5s|\n", str);
+	ft_printf("|%0-20.5d|\n", i);
+	ft_printf("|%20.5d|\n", i);
+	ft_printf("|%20.5d|\n", -i);
+	ft_printf("|%20.5i|\n", i);
+	ft_printf("|%20.5i|\n", -i);
+	ft_printf("|%20.5u|\n", i);
+	ft_printf("|%20.5u|\n", -i);
+	ft_printf("|%20.5x|\n", ui);
+	ft_printf("|%20.5X|\n", ui);
+
 	return (0);
 }
