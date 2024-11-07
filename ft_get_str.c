@@ -14,7 +14,5 @@
 
 char	*ft_get_str(char *str)
 {
-	if (!str)
-		return ft_strdup("(null)");;
-	return (str);
+	return (ft_strdup(str));
 }

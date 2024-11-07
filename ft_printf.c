@@ -16,36 +16,35 @@ static char	*ft_get_arg(char chr, va_list *args)
 {
 	char	*str_arg;
 
-	str_arg	= NULL;
 	if (chr == 'c')
 		str_arg = ft_get_chr(va_arg(*args, int));
-	if (chr == 's')
+	else if (chr == 's')
 		str_arg = ft_get_str(va_arg(*args, char *));
-	if (chr == 'p')
+	else if (chr == 'p')
 		str_arg = ft_get_ptr(va_arg(*args, void *));
-	if (chr == 'd' || chr == 'i')
+	else if (chr == 'd' || chr == 'i')
 		str_arg = ft_get_nbr(va_arg(*args, int));
-	if (chr == 'u')
+	else if (chr == 'u')
 		str_arg = ft_get_unbr(va_arg(*args, unsigned int));
-	if (chr == 'x')
+	else if (chr == 'x')
 		str_arg = ft_get_hex(va_arg(*args, unsigned int), "0123456789abcdef");
-	if (chr == 'X')
+	else if (chr == 'X')
 		str_arg = ft_get_hex(va_arg(*args, unsigned int), "0123456789ABCDEF");
-	if (chr == '%')
+	else
 		str_arg = ft_get_chr('%');
-	return	(str_arg);
+	return (str_arg);
 }
 
 static int	ft_print_str(char *arg, int len, t_flags *flags)
 {
-	int	count;;
+	int	count;
 
 	count = 0;
-	if (flags->precision && len > 0 && len <	flags->precision_value)
+	if (flags->precision && len > 0 && len < flags->precision_value)
 		count += write(1, arg, flags->precision_value);
 	else
 	{
-		if (flags->type_arg	== 'c' && len == 0)
+		if (flags->type_arg == 'c' && len == 0)
 			count += write(1, arg, 1);
 		else
 			count += write(1, arg, len);
@@ -73,7 +72,7 @@ static int	ft_printf_arg(char *str, int len, int has_sign, t_flags *flags)
 		}
 		count += ft_print_str(str, len, flags);
 	}
-	return	(count);
+	return (count);
 }
 
 static int ft_printf_argument(char chr, va_list *args, t_flags *flags)
@@ -85,20 +84,20 @@ static int ft_printf_argument(char chr, va_list *args, t_flags *flags)
 
 	count = 0;
 	flags->type_arg = chr;
-	str_arg	= ft_get_arg(chr, args);
-	if (!str_arg)
-		return (0);
+	str_arg = ft_get_arg(chr, args);
 	str_len = ft_strlen(str_arg);
-	has_sign	= 0;
+	has_sign = 0;
 	if (str_arg)
 		has_sign = str_arg[0] == '-';
 	count += ft_printf_arg(str_arg, str_len, has_sign, flags);
+	if (str_arg)
+		free(str_arg);
 	return (count);
 }
 
 int	ft_printf(const char *str, ...)
 {
-	t_flags flags;
+	t_flags	flags;
 	va_list	args;
 	int		count;
 

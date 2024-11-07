@@ -17,6 +17,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
+LIBFT_OBJECTS = $(patsubst $(LIBFT_DIR)/%, %, $(wildcard $(LIBFT_DIR)/*.o))
 
 SOURCES = ft_utils.c ft_print_pad.c \
 	ft_printf.c ft_get_chr.c ft_get_str.c \
@@ -25,21 +26,23 @@ OBJECTS = $(SOURCES:.c=.o)
 
 all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJECTS)
+$(NAME): $(OBJECTS) $(LIBFT_OBJECTS)
 	ar rcs $@ $^
 
 $(LIBFT):
-	cd libft && make
+	cd $(LIBFT_DIR) && make
+	cp $(LIBFT) .
+	ar x $(LIBFT)
 
 %.o: %.c ft_printf.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJECTS)
+	rm -f $(OBJECTS)	$(LIBFT_OBJECTS)
 	cd $(LIBFT_DIR) && make clean
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) libft.a
 	cd $(LIBFT_DIR) && make fclean
 
 re: fclean all

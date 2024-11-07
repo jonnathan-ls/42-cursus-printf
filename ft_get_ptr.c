@@ -16,10 +16,14 @@ char	*ft_get_ptr(void *ptr)
 {
 	char	*nbr_str;
 	char	*str;
+	char	*result;
 
 	if (!ptr)
 		return ft_strdup("(nil)");
 	str = ft_strdup("0x");
 	nbr_str = ft_get_hex((unsigned long)ptr, "0123456789abcdef");
-	return (ft_strjoin(str, nbr_str));
+	result = ft_strjoin(str, nbr_str);
+	free(str);
+	free(nbr_str);
+	return (result);
 }

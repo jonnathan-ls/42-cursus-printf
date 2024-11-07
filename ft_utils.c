@@ -17,21 +17,6 @@ void	ft_parse_flags(const char **format, t_flags *flags)
 {
 	while (ft_strchr("-0.# +", **format) || ft_isdigit(**format))
 	{
-		if (**format == '-')
-			flags->right_justify = 1;
-		else if (**format == '0')
-			flags->zero_padding = 1;
-		else if (**format == '.')
-		{
-			flags->precision = 1;
-			flags->precision_value = ft_atoi(*format + 1);
-		}
-		else if (**format == '#')
-			flags->alternate = 1;
-		else if (**format == ' ')
-			flags->space = 1;
-		else if (**format == '+')
-			flags->sign = 1;
 		if (ft_isdigit(**format) &&	!flags->precision)
 		{
 			flags->width = ft_atoi(*format);
@@ -39,6 +24,23 @@ void	ft_parse_flags(const char **format, t_flags *flags)
 				(*format)++;
 		}
 		else
+		{
+			if (**format == '-')
+				flags->right_justify = 1;
+			else if (**format == '0')
+				flags->zero_padding = 1;
+			else if (**format == '.')
+			{
+				flags->precision = 1;
+				flags->precision_value = ft_atoi(*format + 1);
+			}
+			else if (**format == '#')
+				flags->alternate = 1;
+			else if (**format == ' ')
+				flags->space = 1;
+			else if (**format == '+')
+				flags->sign = 1;
 			(*format)++;
+		}
 	}
 }
