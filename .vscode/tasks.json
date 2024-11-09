@@ -7,8 +7,10 @@
             "command": "cc",
             "args": [
                 "tests.c",
-                "ft_printf.c",
+                // "ft_printf.c",
+                "ft_printf_bonus.c",
                 "ft_utils.c",
+                "ft_utils_bonus.c",
                 "ft_node_add_chr.c",
                 "ft_node_add_str.c",
                 "ft_node_add_nbr.c",

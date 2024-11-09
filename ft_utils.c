@@ -13,47 +13,47 @@ t_node	*ft_node_new(char chr)
 	return (new_node);
 }
 
-t_node	*ft_node_last(t_node *node)
+t_node	*ft_node_last(t_node *nodes)
 {
-	if (!node)
+	if (!nodes)
 		return (NULL);
-	while (node->next)
-		node = node->next;
-	return (node);
+	while (nodes->next)
+		nodes = nodes->next;
+	return (nodes);
 }
 
-void	ft_node_add_back(t_node **node, t_node *new)
+void	ft_node_add_back(t_node **nodes, t_node *new)
 {
 	t_node	*last;
 
-	if (!node || !new)
+	if (!nodes || !new)
 		return ;
-	if (!*node)
+	if (!*nodes)
 	{
-		*node = new;
+		*nodes = new;
 		return ;
 	}
-	last = ft_node_last(*node);
+	last = ft_node_last(*nodes);
 	last->next = new;
 }
 
-void	ft_node_add_front(t_node **node, t_node *new)
+void	ft_node_add_front(t_node **nodes, t_node *new)
 {
-	if (node && new)
+	if (nodes && new)
 	{
-		new->next = *node;
-		*node = new;
+		new->next = *nodes;
+		*nodes = new;
 	}
 }
 
-int	ft_node_size(t_node *node)
+int	ft_node_size(t_node *nodes)
 {
 	int	count;
 
 	count = 0;
-	while (node)
+	while (nodes)
 	{
-		node = node->next;
+		nodes = nodes->next;
 		count++;
 	}
 	return (count);

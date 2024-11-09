@@ -35,7 +35,7 @@ static t_node	*ft_get_node_list(va_list *args, char arg_type)
 	return (list_node);
 }
 
-static int	ft_printf_argument(const char *str, va_list *args)
+static int	ft_print_argument(const char *str, va_list *args)
 {
 	t_node	*nodes;
 	t_node	*print_node;
@@ -66,7 +66,7 @@ int	ft_printf(const char *fmt, ...)
 	while (*fmt)
 	{
 		if (*fmt == '%')
-			print_size += ft_printf_argument(++fmt, &args);
+			print_size += ft_print_argument(++fmt, &args);
 		else
 			print_size += write(1, fmt, 1);
 		fmt++;
