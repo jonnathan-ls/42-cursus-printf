@@ -12,111 +12,65 @@
 
 #include "ft_printf.h"
 
-static char	*ft_get_arg(char chr, va_list *args)
+static t_node	*ft_get_node_list(va_list *args, char arg_type)
 {
-	char	*str_arg;
+	t_node	*list_node;
 
-	str_arg	= NULL;
-	if (chr == 'c')
-		str_arg = ft_get_chr(va_arg(*args, int));
-	if (chr == 's')
-		str_arg = ft_get_str(va_arg(*args, char *));
-	if (chr == 'p')
-		str_arg = ft_get_ptr(va_arg(*args, void *));
-	if (chr == 'd' || chr == 'i')
-		str_arg = ft_get_nbr(va_arg(*args, int));
-	if (chr == 'u')
-		str_arg = ft_get_unbr(va_arg(*args, unsigned int));
-	if (chr == 'x')
-		str_arg = ft_get_hex(va_arg(*args, unsigned int), "0123456789abcdef");
-	if (chr == 'X')
-		str_arg = ft_get_hex(va_arg(*args, unsigned int), "0123456789ABCDEF");
-	if (chr == '%')
-		str_arg = ft_get_chr('%');
-	return	(str_arg);
+	if (arg_type == CHR_ARG_TYPE)
+		list_node = ft_node_add_chr(va_arg(*args, int));
+	else if (arg_type == STR_ARG_TYPE)
+		list_node = ft_node_add_str(va_arg(*args, char *));
+	else if (arg_type == PTR_ARG_TYPE)
+		list_node = ft_node_add_ptr(va_arg(*args, void *));
+	else if (arg_type == DIG_ARG_TYPE || arg_type == INT_ARG_TYPE)
+		list_node = ft_node_add_nbr(va_arg(*args, int));
+	else if (arg_type == UNS_ARG_TYPE)
+		list_node = ft_node_add_uns_nbr(va_arg(*args, unsigned int));
+	else if (arg_type == HEX_LOWER_ARG_TYPE)
+		list_node = ft_node_add_hex(va_arg(*args, unsigned int), HEX_BASE_LOWER);
+	else if (arg_type == HEX_UPPER_ARG_TYPE)
+		list_node = ft_node_add_hex(va_arg(*args, unsigned int), HEX_BASE_UPPER);
+	else if (arg_type == '%')
+		list_node = ft_node_add_chr('%');
+	return (list_node);
 }
 
-static int	ft_print_str(char *arg, int len, t_flags *flags)
+static int	ft_printf_argument(const char *str, va_list *args)
 {
-	int	count;;
+	t_node	*nodes;
+	t_node	*print_node;
+	int		print_count;
 
-	count = 0;
-	if (flags->precision && len > 0 && len <	flags->precision_value)
-		count += write(1, arg, flags->precision_value);
-	else
+	print_count	= 0;
+	nodes = ft_get_node_list(args, *str);
+	while (nodes)
 	{
-		if (flags->type_arg	== 'c' && len == 0)
-			count += write(1, arg, 1);
-		else
-			count += write(1, arg, len);
+		print_node = nodes;
+		print_count += write(1, &print_node->chr, 1);
+		nodes = nodes->next;
+		free(print_node);
 	}
-	return (count);
+	return (print_count);
 }
 
-static int	ft_printf_arg(char *str, int len, int has_sign, t_flags *flags)
+int	ft_printf(const char *fmt, ...)
 {
-	int	count;
-
-	count = 0;
-	if (flags->right_justify)
-	{
-		count += ft_print_str(str, len, flags);
-		count += ft_print_pad(count, flags, has_sign);
-	}
-	else
-	{
-		count += ft_print_pad(len, flags, has_sign);
-		if (has_sign)
-		{
-			count -= 1;
-			str++;
-		}
-		count += ft_print_str(str, len, flags);
-	}
-	return	(count);
-}
-
-static int ft_printf_argument(char chr, va_list *args, t_flags *flags)
-{
-	int		count;
-	int		str_len;
-	char	*str_arg;
-	int		has_sign;
-
-	count = 0;
-	flags->type_arg = chr;
-	str_arg	= ft_get_arg(chr, args);
-	if (!str_arg)
-		return (0);
-	str_len = ft_strlen(str_arg);
-	has_sign	= 0;
-	if (str_arg)
-		has_sign = str_arg[0] == '-';
-	count += ft_printf_arg(str_arg, str_len, has_sign, flags);
-	return (count);
-}
-
-int	ft_printf(const char *str, ...)
-{
-	t_flags flags;
 	va_list	args;
-	int		count;
+	int		print_size;
 
-	count = 0;
-	va_start(args, str);
-	while (*str)
+
+	if (!fmt)
+		return (-1);
+	print_size = 0;
+	va_start(args, fmt);
+	while (*fmt)
 	{
-		if (*str == '%')
-		{
-			str++;
-			ft_init_flags(&flags);
-			ft_parse_flags(&str, &flags);
-			count += ft_printf_argument(*str, &args, &flags);
-		}
+		if (*fmt == '%')
+			print_size += ft_printf_argument(++fmt, &args);
 		else
-			count += write(1, str, 1);
-		str++;
+			print_size += write(1, fmt, 1);
+		fmt++;
 	}
 	va_end(args);
-	return (count);
+	return (print_size);
 }

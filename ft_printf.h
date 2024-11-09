@@ -15,31 +15,38 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include "libft/libft.h"
+# define HEX_BASE_LOWER "0123456789abcdef"
+# define HEX_BASE_UPPER "0123456789ABCDEF"
+# define STR_ARG_TYPE 's'
+# define CHR_ARG_TYPE 'c'
+# define PTR_ARG_TYPE 'p'
+# define DIG_ARG_TYPE 'd'
+# define INT_ARG_TYPE 'i'
+# define UNS_ARG_TYPE 'u'
+# define HEX_LOWER_ARG_TYPE 'x'
+# define HEX_UPPER_ARG_TYPE 'X' 
 
-typedef struct s_flags {
-	int		sign;
-	int		width;
-	int		space;
-	int		precision;
-	int		alternate;
-	char	type_arg;
-	int		zero_padding;
-	int		right_justify;
-	int		precision_value;
-}	t_flags;
+typedef struct s_node
+{
+	char			chr;
+	struct s_node	*next;
+}	t_node;
 
-void	ft_init_flags(t_flags *flags);
-int		ft_print_pad(int len, t_flags *flags, int has_sign);
-void	ft_parse_flags(const char **format, t_flags *flags);
+// Utils
+t_node	*ft_node_new(char chr);
+t_node	*ft_node_last(t_node *node);
+void	ft_node_add_back(t_node **node, t_node *new);
+void	ft_node_add_front(t_node **node, t_node *new);
+int		ft_node_size(t_node *node);
 
-char	*ft_get_nbr(int n);
-char	*ft_get_chr(char c);
-char	*ft_get_ptr(void *ptr);
-char	*ft_get_str(char *str);
-char	*ft_get_unbr(unsigned long n);
-char	*ft_get_hex(unsigned long n, char *hex_base);
+// Node Types
+t_node	*ft_node_add_chr(char chr);
+t_node	*ft_node_add_str(char *str);
+t_node	*ft_node_add_ptr(void *ptr);
+t_node	*ft_node_add_nbr(int n);
+t_node	*ft_node_add_uns_nbr(unsigned int ui);
+t_node	*ft_node_add_hex(unsigned long ul, char *hex_base);
 
-int		ft_printf(const char *str, ...);
+int		ft_printf(const char *fmt, ...);
 
 #endif

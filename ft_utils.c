@@ -1,44 +1,60 @@
 #include "ft_printf.h"
 
-void	ft_init_flags(t_flags *flags)
+t_node	*ft_node_new(char chr)
 {
-	flags->sign = 0;
-	flags->space = 0;
-	flags->width = 0;
-	flags->type_arg	= 0;
-	flags->precision = 0;
-	flags->alternate = 0;
-	flags->right_justify = 0;
-	flags->zero_padding = 0;
-	flags->precision_value = -1;
+	t_node	*new_node;
+
+	new_node = (t_node *)malloc(sizeof(t_node));
+	if (new_node)
+	{
+		new_node->chr = chr;
+		new_node->next = NULL;
+	}
+	return (new_node);
 }
 
-void	ft_parse_flags(const char **format, t_flags *flags)
+t_node	*ft_node_last(t_node *node)
 {
-	while (ft_strchr("-0.# +", **format) || ft_isdigit(**format))
+	if (!node)
+		return (NULL);
+	while (node->next)
+		node = node->next;
+	return (node);
+}
+
+void	ft_node_add_back(t_node **node, t_node *new)
+{
+	t_node	*last;
+
+	if (!node || !new)
+		return ;
+	if (!*node)
 	{
-		if (**format == '-')
-			flags->right_justify = 1;
-		else if (**format == '0')
-			flags->zero_padding = 1;
-		else if (**format == '.')
-		{
-			flags->precision = 1;
-			flags->precision_value = ft_atoi(*format + 1);
-		}
-		else if (**format == '#')
-			flags->alternate = 1;
-		else if (**format == ' ')
-			flags->space = 1;
-		else if (**format == '+')
-			flags->sign = 1;
-		if (ft_isdigit(**format) &&	!flags->precision)
-		{
-			flags->width = ft_atoi(*format);
-			while (ft_isdigit(**format))
-				(*format)++;
-		}
-		else
-			(*format)++;
+		*node = new;
+		return ;
 	}
+	last = ft_node_last(*node);
+	last->next = new;
+}
+
+void	ft_node_add_front(t_node **node, t_node *new)
+{
+	if (node && new)
+	{
+		new->next = *node;
+		*node = new;
+	}
+}
+
+int	ft_node_size(t_node *node)
+{
+	int	count;
+
+	count = 0;
+	while (node)
+	{
+		node = node->next;
+		count++;
+	}
+	return (count);
 }
