@@ -4,6 +4,7 @@
 		"sstream": "c",
 		"stdio.h": "c",
 		"libft.h": "c",
-		"random": "c"
+		"random": "c",
+		"ft_printf_bonus.h": "c"
 	}
 }

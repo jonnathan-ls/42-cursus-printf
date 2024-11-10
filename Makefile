@@ -16,7 +16,7 @@ CFLAGS = -Wall -Wextra -Werror
 SOURCES = ft_utils.c ft_printf.c \
 	ft_node_add_chr.c ft_node_add_str.c ft_node_add_hex.c \
 	ft_node_add_nbr.c ft_node_add_uns_nbr.c ft_node_add_ptr.c
-BONUS_SOURCES = ft_utils_bonus.c ft_printf_bonus.c
+BONUS_SOURCES = ft_utils_bonus.c ft_printf_bonus.c ft_node_add_pad.c
 
 OBJECTS = $(SOURCES:.c=.o)
 BONUS_OBJECTS = $(BONUS_SOURCES:.c=.o)
@@ -37,6 +37,15 @@ bonus: $(BONUS_OBJECTS) $(OBJECTS)
 
 %.o: %.c ft_printf_bonus.h
 	$(COMPILER) $(CFLAGS) -c $< -o $@
+
+# // TODO PARA COMPILAR SEPARADO e adicionar link separadamente
+# $(NAME): $(OBJECTS)
+
+# %.o: %.c 
+# 	@cc -Wall -Wextra -Werror -c $< $(ft_printf:%.c=%.h)
+# 	@ar rcs $(NAME) $@
+
+# bonus: all $(BONUS_OBJS)
 
 clean:
 	rm -f $(OBJECTS) $(BONUS_OBJECTS)

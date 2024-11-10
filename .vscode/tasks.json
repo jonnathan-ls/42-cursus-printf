@@ -17,6 +17,7 @@
                 "ft_node_add_uns_nbr.c",
                 "ft_node_add_ptr.c",
                 "ft_node_add_hex.c",
+                "ft_node_add_pad.c",
                 "-L",
                 ".",
                 "-lftprintf",

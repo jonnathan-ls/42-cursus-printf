@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_printf_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/11/02 19:22:55 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/11/09 19:05:34 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@
 # define ALIGN_LEFT_FLAG '-'
 # define ZERO_PADDING_FLAG '0'
 
-typedef struct s_flags {
+typedef struct s_flags
+{
 	int	sign;
 	int	space;
-	// int has_flags;
 	int	precision;
 	int	alternate;
 	int	min_width;
@@ -36,7 +36,7 @@ typedef struct s_flags {
 	int	precision_value;
 }	t_flags;
 
-// int		ft_str_has_flag(const char *s, char c);
-void	ft_initialize_flags(const char **format, t_flags *flags);
+void	ft_initialize_flags(const char **chr, t_flags *flags);
+void	ft_node_add_pad(t_node **nodes, t_flags *flags, char arg_type);
 
 #endif

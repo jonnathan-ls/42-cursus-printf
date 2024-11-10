@@ -14,25 +14,26 @@
 
 static t_node	*ft_get_node_list(va_list *args, char arg_type)
 {
-	t_node	*list_node;
+	t_node	*nodes;
 
+	nodes = NULL;
 	if (arg_type == CHR_ARG_TYPE)
-		list_node = ft_node_add_chr(va_arg(*args, int));
+		nodes = ft_node_add_chr(va_arg(*args, int));
 	else if (arg_type == STR_ARG_TYPE)
-		list_node = ft_node_add_str(va_arg(*args, char *));
+		nodes = ft_node_add_str(va_arg(*args, char *));
 	else if (arg_type == PTR_ARG_TYPE)
-		list_node = ft_node_add_ptr(va_arg(*args, void *));
+		nodes = ft_node_add_ptr(va_arg(*args, void *));
 	else if (arg_type == DIG_ARG_TYPE || arg_type == INT_ARG_TYPE)
-		list_node = ft_node_add_nbr(va_arg(*args, int));
+		nodes = ft_node_add_nbr(va_arg(*args, int));
 	else if (arg_type == UNS_ARG_TYPE)
-		list_node = ft_node_add_uns_nbr(va_arg(*args, unsigned int));
+		nodes = ft_node_add_uns_nbr(va_arg(*args, unsigned int));
 	else if (arg_type == HEX_LOWER_ARG_TYPE)
-		list_node = ft_node_add_hex(va_arg(*args, unsigned int), HEX_BASE_LOWER);
+		nodes = ft_node_add_hex(va_arg(*args, unsigned int), HEX_BASE_LOWER);
 	else if (arg_type == HEX_UPPER_ARG_TYPE)
-		list_node = ft_node_add_hex(va_arg(*args, unsigned int), HEX_BASE_UPPER);
+		nodes = ft_node_add_hex(va_arg(*args, unsigned int), HEX_BASE_UPPER);
 	else if (arg_type == '%')
-		list_node = ft_node_add_chr('%');
-	return (list_node);
+		nodes = ft_node_add_chr('%');
+	return (nodes);
 }
 
 static int	ft_print_argument(const char *str, va_list *args)
@@ -41,7 +42,7 @@ static int	ft_print_argument(const char *str, va_list *args)
 	t_node	*print_node;
 	int		print_count;
 
-	print_count	= 0;
+	print_count = 0;
 	nodes = ft_get_node_list(args, *str);
 	while (nodes)
 	{
@@ -57,7 +58,6 @@ int	ft_printf(const char *fmt, ...)
 {
 	va_list	args;
 	int		print_size;
-
 
 	if (!fmt)
 		return (-1);

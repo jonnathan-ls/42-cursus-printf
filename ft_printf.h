@@ -34,14 +34,12 @@ typedef struct s_node
 	struct s_node	*next;
 }	t_node;
 
-// Utils
 t_node	*ft_node_new(char chr);
 t_node	*ft_node_last(t_node *node);
 void	ft_node_add_back(t_node **node, t_node *new);
 void	ft_node_add_front(t_node **node, t_node *new);
 int		ft_node_size(t_node *node);
 
-// Node Types
 t_node	*ft_node_add_chr(char chr);
 t_node	*ft_node_add_str(char *str);
 t_node	*ft_node_add_ptr(void *ptr);
