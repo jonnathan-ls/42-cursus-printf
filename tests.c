@@ -299,12 +299,13 @@ int main(void)
 	// ft_printf("|%20.5x|\n", ui);
 	// ft_printf("|%20.5X|\n", ui);
 
-	int_arg =	-1;
-	str_arg	=	"Hello, World!";
+	int_arg =	1;
+	str_arg	=	"";
 	chr_arg	=	'c';
-	format = strdup("|%.5p|");
-	printf("\nOriginal ==> "); expected = printf(format, chr_arg);
-	printf("\nReplica  ==> "); result = ft_printf(format, chr_arg);
+	format = strdup("|%+.5i|");
+	long long *p;
+	printf("\nOriginal ==> "); expected = printf(format, 0);
+	printf("\nReplica  ==> "); result = ft_printf(format, 0);
 	printf("\nAre equal? %s", expected == result ? "🟩" : "🟥");
 	printf(" O:%d R:%d\n", expected, result);
 
