@@ -302,10 +302,10 @@ int main(void)
 	int_arg =	1;
 	str_arg	=	"";
 	chr_arg	=	'c';
-	format = strdup("|%+.5i|");
+	format = strdup("|%- 10i|");
 	long long *p;
-	printf("\nOriginal ==> "); expected = printf(format, 0);
-	printf("\nReplica  ==> "); result = ft_printf(format, 0);
+	printf("\nOriginal ==> "); expected = printf(format, INT_MAX);
+	printf("\nReplica  ==> "); result = ft_printf(format, INT_MAX);
 	printf("\nAre equal? %s", expected == result ? "🟩" : "🟥");
 	printf(" O:%d R:%d\n", expected, result);
 
