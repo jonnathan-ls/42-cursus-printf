@@ -35,6 +35,9 @@ t_node	*ft_node_add_nbr(int n)
 	else
 		node = ft_node_new(digit);
 	if (sign_node)
-		ft_node_add_front(&node, sign_node);
+	{
+		ft_node_add_front(&node, ft_node_new('-'));
+		free(sign_node);
+	}
 	return (node);
 }

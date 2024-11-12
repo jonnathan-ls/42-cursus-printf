@@ -53,19 +53,28 @@ static void	ft_node_add_alternate_pad(t_node	**nodes, char arg_type, int *len)
 
 static void	ft_node_add_zero_pad(t_node **nds, t_flags *flg, char at, int *len)
 {
-	if (at != STR_ARG_TYPE || at != PTR_ARG_TYPE || at != CHR_ARG_TYPE)
-	{
-		while ((*len)++ < flg->width_value)
+		if (at == PTR_ARG_TYPE && (*nds) && (*nds)->chr != '(')
 		{
-			if ((*nds) && (*nds)->chr == '-')
+			while ((*len)++ < flg->width_value && (*nds) && (*nds)->next)
 			{
-				(*nds)->chr = '0';
-				ft_node_add_front(nds, ft_node_new('-'));
-			}
-			else
+				(*nds)->next->chr = '0';
+				(*nds)->chr = 'x';
 				ft_node_add_front(nds, ft_node_new('0'));
+			}
 		}
-	}
+		else if (at != STR_ARG_TYPE && at != CHR_ARG_TYPE)
+		{
+			while ((*len)++ < flg->width_value && (*nds) && (*nds)->chr != '(')
+			{
+				if ((*nds) && (*nds)->chr == '-')
+				{
+					(*nds)->chr = '0';
+					ft_node_add_front(nds, ft_node_new('-'));
+				}
+				else
+					ft_node_add_front(nds, ft_node_new('0'));
+			}
+		}
 	*len = ft_node_size(*nds);
 }
 
@@ -89,6 +98,8 @@ static void	ft_node_add_space_pad(t_node **nds, t_flags *f, char at, int *len)
 				ft_node_add_front(nds, ft_node_new(' '));
 		}
 	}
+	else if (at == PTR_ARG_TYPE && (*nds) && (*nds)->chr != '(')
+		ft_node_add_front(nds, ft_node_new(' '));
 	*len = ft_node_size(*nds);
 }
 
@@ -142,6 +153,8 @@ static void	ft_node_add_precision_pad(t_node **nds, t_flags *f, char at, int *le
 				ft_node_add_front(nds, ft_node_new('-'));
 			else	if (temp_node && temp_node->chr == '+')
 				ft_node_add_front(nds, ft_node_new('+'));
+			if (temp_node)
+				free(temp_node);
 		}
 	}
 	else if (at == UNS_ARG_TYPE)
@@ -178,20 +191,33 @@ static void	ft_node_add_precision_pad(t_node **nds, t_flags *f, char at, int *le
 				(*nds)->next->chr = temp_node->chr;
 		}
 	}
-	else if (at == PTR_ARG_TYPE)
+	else if (at == PTR_ARG_TYPE && (*nds) && (*nds)->chr != '(')
 	{
-		if ((*nds) && (*nds)->chr == '0' && f->precision_value > 0 && *len < f->precision_value)
+		// if ((*nds) && (*nds)->chr == '0' && f->precision_value > 0 && *len < f->precision_value)
+		// {
+		// 	temp_node	= *nds;
+		// 	(*nds)->next->chr = '0';
+		// }
+		*len -= 2;
+		if (f->sign)
 		{
-			temp_node	= *nds;
-			(*nds)->next->chr = '0';
+			temp_node = (*nds);
+			(*nds) = (*nds)->next;
+			*len -= 1;
 		}
-		while (temp_node && (*len)++ < f->precision_value)
+		while ((*len)++ < f->precision_value && (*nds) && (*nds)->next)
+		{
+			(*nds)->next->chr = '0';
 			ft_node_add_front(nds, ft_node_new('0'));
-		if (temp_node && f->precision_value > 0)
+			(*nds)->next->chr = 'x';
+		}
+		if (temp_node && f->precision_value > 0 && !f->sign)
 		{
 			ft_node_add_front(nds, ft_node_new('x'));
 			ft_node_add_front(nds, ft_node_new('0'));
 		}
+		if (f->sign)
+			ft_node_add_front(nds, ft_node_new(temp_node->chr));
 	}
 	*len = ft_node_size(*nds);
 }
@@ -207,7 +233,7 @@ void	ft_node_add_pad(t_node **nodes, t_flags *flags, char arg_type)
 		ft_node_add_alternate_pad(nodes, arg_type, &nodes_size);
 	if (flags->precision)
 		ft_node_add_precision_pad(nodes, flags, arg_type, &nodes_size);
-	if (flags->zero_padding && !flags->align_left && (arg_type	== DIG_ARG_TYPE || arg_type == INT_ARG_TYPE || arg_type == UNS_ARG_TYPE || arg_type == HEX_LOWER_ARG_TYPE || arg_type == HEX_UPPER_ARG_TYPE))
+	if (flags->zero_padding && !flags->align_left)
 		ft_node_add_zero_pad(nodes, flags, arg_type, &nodes_size);
 	if (flags->space && !flags->sign)
 		ft_node_add_space_pad(nodes, flags, arg_type, &nodes_size);
