@@ -9,15 +9,15 @@ int main(void)
 {
 	setvbuf(stdout, NULL, _IONBF, 0); // Define o buffer de saída como não-bufferizado
 
-	int i = 42;
-	unsigned int ui = 2024;
-	char *str =	"Hello, World!";
+	// int i = 42;
+	// unsigned int ui = 2024;
+	// char *str =	"Hello, World!";
 
-	int n[] = { INT_MIN, -42, 0, 42, INT_MAX };
-	char c[] = { (char)INT_MIN, -42, 0, 42, (char)INT_MAX };
-	char *s[] = { "Hello, World!", "\x23", "\b", "42", "" };
+	// int n[] = { INT_MIN, -42, 0, 42, INT_MAX };
+	// char c[] = { (char)INT_MIN, -42, 0, 42, (char)INT_MAX };
+	// char *s[] = { "Hello, World!", "\x23", "\b", "42", "" };
 
-	int result; int expected; char *format = NULL; int int_arg; char chr_arg; char *str_arg;
+	// int result; int expected; char *format = NULL; int int_arg; char chr_arg; char *str_arg;
 
 	// printf("\n[ Casos de Testes sem uso das Flags ]:\n");
 	
@@ -299,15 +299,18 @@ int main(void)
 	// ft_printf("|%20.5x|\n", ui);
 	// ft_printf("|%20.5X|\n", ui);
 
-	int_arg =	1;
-	str_arg	=	"";
-	chr_arg	=	'c';
-	format = strdup("|%+.5p|");
-	long long *p;
-	printf("\nOriginal ==> "); expected = printf(format, (void*)0x3039);
-	printf("\nReplica  ==> "); result = ft_printf(format, (void*)0x3039);
+	// int_arg =	1;
+	// str_arg	=	"";
+	// chr_arg	=	'c';
+	char *format = strdup("%.1s");
+	// long long *p;
+	int expected;
+	int result;
+	printf("\nOriginal ==> "); expected = printf(format,  " - ");
+	printf("\nReplica  ==> "); result = ft_printf(format,  " - ");
 	printf("\nAre equal? %s", expected == result ? "🟩" : "🟥");
 	printf(" O:%d R:%d\n", expected, result);
+	free(format);
 
 	return (0);
 }

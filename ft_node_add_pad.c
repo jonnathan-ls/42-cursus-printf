@@ -106,7 +106,9 @@ static void	ft_node_add_space_pad(t_node **nds, t_flags *f, char at, int *len)
 static void	ft_node_add_precision_pad(t_node **nds, t_flags *f, char at, int *len)
 {
 	t_node *temp_node;
+	t_node *tmp;
 	int index;
+
 
 	index = 0;
 	temp_node = NULL;
@@ -122,8 +124,16 @@ static void	ft_node_add_precision_pad(t_node **nds, t_flags *f, char at, int *le
 		{
 			while ((*nds) && index++ < f->precision_value)
 			{
+				tmp = *nds;
 				ft_node_add_back(&temp_node, ft_node_new((*nds)->chr));
 				*nds = (*nds)->next;
+				free(tmp);
+			}
+			while (*nds)
+			{
+				tmp = *nds;
+				*nds = (*nds)->next;
+				free(tmp);
 			}
 			*nds = temp_node;
 		}
@@ -137,7 +147,7 @@ static void	ft_node_add_precision_pad(t_node **nds, t_flags *f, char at, int *le
 		}
 		else
 		{
-			if ((*nds) && (*nds)->chr == '-' && *len	< f->precision_value)
+			if ((*nds) && (*nds)->chr == '-' && *len	<= f->precision_value)
 			{
 				temp_node = ft_node_new('-');
 				(*nds)->chr = '0';
@@ -151,7 +161,7 @@ static void	ft_node_add_precision_pad(t_node **nds, t_flags *f, char at, int *le
 				ft_node_add_front(nds, ft_node_new('0'));
 			if (temp_node && temp_node->chr == '-')
 				ft_node_add_front(nds, ft_node_new('-'));
-			else	if (temp_node && temp_node->chr == '+')
+			if (temp_node && temp_node->chr == '+')
 				ft_node_add_front(nds, ft_node_new('+'));
 			if (temp_node)
 				free(temp_node);

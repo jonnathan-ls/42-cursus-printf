@@ -17,11 +17,10 @@ t_node	*ft_node_new(char chr)
 	t_node	*new_node;
 
 	new_node = (t_node *)malloc(sizeof(t_node));
-	if (new_node)
-	{
-		new_node->chr = chr;
-		new_node->next = NULL;
-	}
+	if (!new_node)
+		return (NULL);
+	new_node->chr = chr;
+	new_node->next = NULL;
 	return (new_node);
 }
 
