@@ -38,5 +38,6 @@ typedef struct s_flags
 
 void	ft_initialize_flags(const char **chr, t_flags *flags);
 void	ft_node_add_pad(t_node **nodes, t_flags *flags, char arg_type);
+void	ft_node_add_precision_pad(t_node **nds, t_flags *f, char at, int *len);
 
 #endif

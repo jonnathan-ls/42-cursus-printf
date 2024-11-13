@@ -16,7 +16,8 @@ CFLAGS = -Wall -Wextra -Werror
 SOURCES = ft_utils.c ft_printf.c \
 	ft_node_add_chr.c ft_node_add_str.c ft_node_add_hex.c \
 	ft_node_add_nbr.c ft_node_add_uns_nbr.c ft_node_add_ptr.c
-BONUS_SOURCES = ft_utils_bonus.c ft_printf_bonus.c ft_node_add_pad.c
+BONUS_SOURCES = ft_utils_bonus.c ft_printf_bonus.c \
+	ft_node_add_pad.c ft_node_add_precision_pad.c
 
 OBJECTS = $(SOURCES:.c=.o)
 BONUS_OBJECTS = $(BONUS_SOURCES:.c=.o)

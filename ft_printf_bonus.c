@@ -54,10 +54,6 @@ static int	ft_print_argument(const char *str, va_list *args, t_flags *flags)
 		nodes = nodes->next;
 		free(print_node);
 	}
-	// if (nodes)
-	// 	free(nodes);
-	// if (print_node)
-	// 	free(print_node);
 	return (print_count);
 }
 

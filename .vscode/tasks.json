@@ -18,6 +18,7 @@
                 "ft_node_add_ptr.c",
                 "ft_node_add_hex.c",
                 "ft_node_add_pad.c",
+                "ft_node_add_precision_pad.c",
                 "-L",
                 ".",
                 "-lftprintf",
