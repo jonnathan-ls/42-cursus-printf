@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_node_add_ptr.c                                  :+:      :+:    :+:   */
+/*   ft_add_ptr.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,18 +12,18 @@
 
 #include "ft_printf.h"
 
-t_node	*ft_node_add_ptr(void *ptr)
+t_lst	*ft_add_ptr(void *ptr)
 {
-	t_node	*ptr_node;
-	t_node	*hex_node;
+	t_lst	*ptr_node;
+	t_lst	*hex_node;
 
 	if (!ptr)
-		ptr_node = ft_node_add_str("(nil)");
+		ptr_node = ft_add_str("(nil)");
 	else
 	{
-		ptr_node = ft_node_add_str("0x");
-		hex_node = ft_node_add_hex((unsigned long)ptr, HEX_BASE_LOWER);
-		ft_node_add_back(&ptr_node, hex_node);
+		ptr_node = ft_add_str("0x");
+		hex_node = ft_add_hex((unsigned long)ptr, HEX_BASE_LOWER);
+		ft_add_back_lst(&ptr_node, hex_node);
 	}
 	return (ptr_node);
 }

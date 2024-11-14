@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_node_add_chr.c                                  :+:      :+:    :+:   */
+/*   ft_add_unbr.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/11/09 18:44:38 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/11/09 18:46:48 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-t_node	*ft_node_add_chr(char chr)
+t_lst	*ft_add_unbr(unsigned int ui)
 {
-	t_node	*node;
+	t_lst	*uns_nbr_node;
 
-	node = ft_node_new(chr);
-	return (node);
+	if (ui < 10)
+	{
+		uns_nbr_node = ft_new_lst(ui + '0');
+		return (uns_nbr_node);
+	}
+	uns_nbr_node = ft_add_unbr(ui / 10);
+	ft_add_back_lst(&uns_nbr_node, ft_new_lst(ui % 10 + '0'));
+	return (uns_nbr_node);
 }

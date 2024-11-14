@@ -12,11 +12,11 @@
 
 #include "ft_printf.h"
 
-t_node	*ft_node_new(char chr)
+t_lst	*ft_new_lst(char chr)
 {
-	t_node	*new_node;
+	t_lst	*new_node;
 
-	new_node = (t_node *)malloc(sizeof(t_node));
+	new_node = (t_lst *)malloc(sizeof(t_lst));
 	if (!new_node)
 		return (NULL);
 	new_node->chr = chr;
@@ -24,47 +24,47 @@ t_node	*ft_node_new(char chr)
 	return (new_node);
 }
 
-t_node	*ft_node_last(t_node *nodes)
+t_lst	*ft_last_lst(t_lst *lst)
 {
-	if (!nodes)
+	if (!lst)
 		return (NULL);
-	while (nodes->next)
-		nodes = nodes->next;
-	return (nodes);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
 }
 
-void	ft_node_add_back(t_node **nodes, t_node *new)
+void	ft_add_back_lst(t_lst **lst, t_lst *new)
 {
-	t_node	*last;
+	t_lst	*last;
 
-	if (!nodes || !new)
+	if (!lst || !new)
 		return ;
-	if (!*nodes)
+	if (!*lst)
 	{
-		*nodes = new;
+		*lst = new;
 		return ;
 	}
-	last = ft_node_last(*nodes);
+	last = ft_last_lst(*lst);
 	last->next = new;
 }
 
-void	ft_node_add_front(t_node **nodes, t_node *new)
+void	ft_add_front_lst(t_lst **lst, t_lst *new)
 {
-	if (nodes && new)
+	if (lst && new)
 	{
-		new->next = *nodes;
-		*nodes = new;
+		new->next = *lst;
+		*lst = new;
 	}
 }
 
-int	ft_node_size(t_node *nodes)
+int	ft_size_lst(t_lst *lst)
 {
 	int	count;
 
 	count = 0;
-	while (nodes)
+	while (lst)
 	{
-		nodes = nodes->next;
+		lst = lst->next;
 		count++;
 	}
 	return (count);

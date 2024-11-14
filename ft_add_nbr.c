@@ -1,30 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_node_add_str.c                                  :+:      :+:    :+:   */
+/*   ft_add_nbr.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/11/09 18:46:31 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/11/09 18:45:14 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-t_node	*ft_node_add_str(char *str)
+t_lst	*ft_add_nbr(int n)
 {
-	t_node	*str_node;
+	long	nbr;
+	t_lst	*lst;
+	t_lst	*sign_node;
 
-	if (!str)
+	nbr = n;
+	sign_node = NULL;
+	if (nbr < 0)
 	{
-		str_node = ft_node_add_str("(null)");
-		return (str_node);
+		nbr = -nbr;
+		sign_node = ft_new_lst('-');
 	}
-	if (!*str)
-		return (NULL);
-	str_node = ft_node_new(*str++);
-	while (*str)
-		ft_node_add_back(&str_node, ft_node_new(*str++));
-	return (str_node);
+	if (nbr >= 10)
+	{
+		lst = ft_add_nbr(nbr / 10);
+		ft_add_back_lst(&lst, ft_new_lst(nbr % 10 + '0'));
+	}
+	else
+		lst = ft_new_lst(nbr % 10 + '0');
+	if (sign_node)
+	{
+		ft_add_front_lst(&lst, ft_new_lst('-'));
+		free(sign_node);
+	}
+	return (lst);
 }

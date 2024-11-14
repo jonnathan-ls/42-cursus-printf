@@ -12,46 +12,46 @@
 
 #include "ft_printf_bonus.h"
 
-static t_node	*ft_put_node_argument(va_list *args, char arg_type)
+static t_lst	*ft_set_argument(va_list *args, char arg_type)
 {
-	t_node	*nodes;
+	t_lst	*lst;
 
-	nodes = NULL;
+	lst = NULL;
 	if (arg_type == CHR_ARG_TYPE)
-		nodes = ft_node_add_chr(va_arg(*args, int));
+		lst = ft_add_chr(va_arg(*args, int));
 	else if (arg_type == STR_ARG_TYPE)
-		nodes = ft_node_add_str(va_arg(*args, char *));
+		lst = ft_add_str(va_arg(*args, char *));
 	else if (arg_type == PTR_ARG_TYPE)
-		nodes = ft_node_add_ptr(va_arg(*args, void *));
+		lst = ft_add_ptr(va_arg(*args, void *));
 	else if (arg_type == DIG_ARG_TYPE || arg_type == INT_ARG_TYPE)
-		nodes = ft_node_add_nbr(va_arg(*args, int));
+		lst = ft_add_nbr(va_arg(*args, int));
 	else if (arg_type == UNS_ARG_TYPE)
-		nodes = ft_node_add_uns_nbr(va_arg(*args, unsigned int));
+		lst = ft_add_unbr(va_arg(*args, unsigned int));
 	else if (arg_type == HEX_LOWER_ARG_TYPE)
-		nodes = ft_node_add_hex(va_arg(*args, unsigned int), HEX_BASE_LOWER);
+		lst = ft_add_hex(va_arg(*args, unsigned int), HEX_BASE_LOWER);
 	else if (arg_type == HEX_UPPER_ARG_TYPE)
-		nodes = ft_node_add_hex(va_arg(*args, unsigned int), HEX_BASE_UPPER);
+		lst = ft_add_hex(va_arg(*args, unsigned int), HEX_BASE_UPPER);
 	else if (arg_type == '%')
-		nodes = ft_node_add_chr('%');
-	return (nodes);
+		lst = ft_add_chr('%');
+	return (lst);
 }
 
 static int	ft_print_argument(const char *str, va_list *args, t_flags *flags)
 {
-	t_node	*nodes;
-	t_node	*print_node;
+	t_lst	*lst;
+	t_lst	*print_node;
 	int		print_count;
 	char	arg_type;
 
 	print_count = 0;
 	arg_type = *str;
-	nodes = ft_put_node_argument(args, arg_type);
-	ft_node_add_pad(&nodes, flags, arg_type);
-	while (nodes)
+	lst = ft_set_argument(args, arg_type);
+	ft_add_padding(&lst, flags, arg_type);
+	while (lst)
 	{
-		print_node = nodes;
+		print_node = lst;
 		print_count += write(1, &print_node->chr, 1);
-		nodes = nodes->next;
+		lst = lst->next;
 		free(print_node);
 	}
 	return (print_count);

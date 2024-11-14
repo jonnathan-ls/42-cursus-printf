@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_node_add_uns_nbr.c                              :+:      :+:    :+:   */
+/*   ft_add_hex.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/11/09 18:46:48 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/11/09 18:45:05 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-t_node	*ft_node_add_uns_nbr(unsigned int ui)
+t_lst	*ft_add_hex(unsigned long ul, char *hex_base)
 {
-	t_node	*uns_nbr_node;
+	t_lst	*lst;
 
-	if (ui < 10)
+	if (ul < 16)
 	{
-		uns_nbr_node = ft_node_new(ui + '0');
-		return (uns_nbr_node);
+		lst = ft_new_lst(hex_base[ul]);
+		return (lst);
 	}
-	uns_nbr_node = ft_node_add_uns_nbr(ui / 10);
-	ft_node_add_back(&uns_nbr_node, ft_node_new(ui % 10 + '0'));
-	return (uns_nbr_node);
+	lst = ft_add_hex(ul / 16, hex_base);
+	ft_add_back_lst(&lst, ft_new_lst(hex_base[ul % 16]));
+	return (lst);
 }
