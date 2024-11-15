@@ -6,45 +6,73 @@
 #   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        #
 #                                                +#+#+#+#+#+   +#+           #
 #   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             #
-#   Updated: 2024/11/15 14:38:20 by jlacerda         ###   ########.fr       #
+#   Updated: 2024/11/14 01:43:08 by jlacerda         ###   ########.fr       #
 #                                                                            #
 # ************************************************************************** #
+
+NAME = libftprintf.a
 
 COMPILER = cc
 CFLAGS = -Wall -Wextra -Werror
 
-OBJDIR = objects
-COMPILE_NAME = libftprintf.a
+B_DIR = ./bonus
+M_DIR = ./mandatory
+OBJS_DIR = ./objects
+B_OBJS_DIR = ${OBJS_DIR}/bonus
+M_OBJS_DIR = ${OBJS_DIR}/mandatory
 
-MANDATORY_SOURCES = ft_utils.c ft_printf.c \
-	ft_get_chr.c ft_get_str.c ft_get_hex.c \
-	ft_get_nbr.c ft_get_unbr.c ft_get_ptr.c
+B_SRCS = \
+	$(B_DIR)/ft_utils_bonus.c \
+	$(B_DIR)/ft_printf_bonus.c \
+	$(B_DIR)/ft_set_flags_bonus.c \
+	$(B_DIR)/ft_set_padding_bonus.c \
+	$(B_DIR)/ft_set_precision_bonus.c \
+	$(B_DIR)/ft_utils_m_bonus.c \
+	$(B_DIR)/ft_get_chr_bonus.c \
+	$(B_DIR)/ft_get_str_bonus.c \
+	$(B_DIR)/ft_get_hex_bonus.c \
+	$(B_DIR)/ft_get_nbr_bonus.c \
+	$(B_DIR)/ft_get_ptr_bonus.c \
+	$(B_DIR)/ft_get_unbr_bonus.c \
 
-BONUS_SOURCES = ft_utils_bonus.c ft_printf_bonus.c \
-	ft_set_flags.c ft_set_padding.c ft_set_precision.c
+M_SRCS = \
+	$(M_DIR)/ft_utils.c \
+	$(M_DIR)/ft_printf.c \
+	$(M_DIR)/ft_get_chr.c \
+	$(M_DIR)/ft_get_str.c \
+	$(M_DIR)/ft_get_hex.c \
+	$(M_DIR)/ft_get_nbr.c \
+	$(M_DIR)/ft_get_ptr.c \
+	$(M_DIR)/ft_get_unbr.c
 
-MANDATORY_OBJECTS = $(addprefix $(OBJDIR)/, $(MANDATORY_SOURCES:.c=.o))
-BONUS_OBJECTS = $(addprefix $(OBJDIR)/, $(BONUS_SOURCES:.c=.o))
+B_OBJS = $(B_SRCS:$(B_DIR)/%.c=$(B_OBJS_DIR)/%.o)
+M_OBJS = $(M_SRCS:$(M_DIR)/%.c=$(M_OBJS_DIR)/%.o)
 
-all: $(COMPILE_NAME)
 
-$(COMPILE_NAME): $(MANDATORY_OBJECTS)
+all: $(NAME)
 
-bonus: $(BONUS_OBJECTS) $(MANDATORY_OBJECTS)
+$(NAME): $(M_OBJS)
 
-$(OBJDIR)/%.o: %.c | $(OBJDIR)
+bonus: $(B_OBJS)
+
+$(M_OBJS_DIR)/%.o: $(M_DIR)/%.c
+	@mkdir -p $(M_OBJS_DIR)
 	$(COMPILER) $(CFLAGS) -c $< -o $@
-	ar rcs $(COMPILE_NAME) $@
+	ar rcs $(NAME) $@
 
-$(OBJDIR):
-	mkdir -p $(OBJDIR)
+$(B_OBJS_DIR)/%.o: $(B_DIR)/%.c
+	@if [ -d $(M_OBJS_DIR) ]; then \
+		ar -d $(NAME) $(M_DIR)/ft_printf.o; \
+	fi
+	@mkdir -p $(B_OBJS_DIR)
+	$(COMPILER) $(CFLAGS) -c $< -o $@
+	ar rcs $(NAME) $@
 
 clean:
-	rm -f $(BONUS_OBJECTS) $(MANDATORY_OBJECTS) 
-	rm -rf $(OBJDIR)
+	rm -rf $(OBJS_DIR)
 
 fclean: clean
-	rm -f $(COMPILE_NAME)
+	rm -f $(NAME)
 
 re: fclean all
 
