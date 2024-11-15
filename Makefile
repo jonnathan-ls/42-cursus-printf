@@ -1,50 +1,71 @@
-# ************************************************************************** #
-#                                                                            #
-#                                                        :::      ::::::::   #
-#   Makefile                                           :+:      :+:    :+:   #
-#                                                    +:+ +:+         +:+     #
-#   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        #
-#                                                +#+#+#+#+#+   +#+           #
-#   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             #
-#   Updated: 2024/11/15 14:38:20 by jlacerda         ###   ########.fr       #
-#                                                                            #
-# ************************************************************************** #
+# Diretórios
+B_DIR = ./bonus
+M_DIR = ./mandatory
 
-COMPILER = cc
+# Arquivos de origem
+B_SRCS = \
+	$(B_DIR)/ft_utils_bonus.c \
+	$(B_DIR)/ft_printf_bonus.c \
+	$(B_DIR)/ft_set_flags_bonus.c \
+	$(B_DIR)/ft_set_padding_bonus.c \
+	$(B_DIR)/ft_set_precision_bonus.c \
+	$(B_DIR)/ft_utils_mandatory_bonus.c \
+	$(B_DIR)/ft_get_chr_bonus.c \
+	$(B_DIR)/ft_get_str_bonus.c \
+	$(B_DIR)/ft_get_hex_bonus.c \
+	$(B_DIR)/ft_get_nbr_bonus.c \
+	$(B_DIR)/ft_get_ptr_bonus.c \
+	$(B_DIR)/ft_get_unbr_bonus.c \
+
+M_SRCS = \
+	$(M_DIR)/ft_utils.c \
+	$(M_DIR)/ft_printf.c \
+	$(M_DIR)/ft_get_chr.c \
+	$(M_DIR)/ft_get_str.c \
+	$(M_DIR)/ft_get_hex.c \
+	$(M_DIR)/ft_get_nbr.c \
+	$(M_DIR)/ft_get_ptr.c \
+	$(M_DIR)/ft_get_unbr.c
+
+B_OBJS_DIR = objects_bonus
+M_OBJS_DIR = objects_mandatory
+
+# Arquivos objeto
+B_OBJS = $(B_SRCS:$(B_DIR)/%.c=$(B_OBJS_DIR)/%.o)
+M_OBJS = $(M_SRCS:$(M_DIR)/%.c=$(M_OBJS_DIR)/%.o)
+
+# Nome do arquivo de saída
+NAME = libftprintf.a
+
+# Compilador e flags
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
-OBJDIR = objects
-COMPILE_NAME = libftprintf.a
+# Regras
+all: $(NAME)
 
-MANDATORY_SOURCES = ft_utils.c ft_printf.c \
-	ft_get_chr.c ft_get_str.c ft_get_hex.c \
-	ft_get_nbr.c ft_get_unbr.c ft_get_ptr.c
+$(NAME): sclean $(M_OBJS)
 
-BONUS_SOURCES = ft_utils_bonus.c ft_printf_bonus.c \
-	ft_set_flags.c ft_set_padding.c ft_set_precision.c
+bonus: sclean $(B_OBJS)
 
-MANDATORY_OBJECTS = $(addprefix $(OBJDIR)/, $(MANDATORY_SOURCES:.c=.o))
-BONUS_OBJECTS = $(addprefix $(OBJDIR)/, $(BONUS_SOURCES:.c=.o))
+sclean:
+	rm -rf $(NAME)
 
-all: $(COMPILE_NAME)
+$(B_OBJS_DIR)/%.o: $(B_DIR)/%.c
+	@mkdir -p $(B_OBJS_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+	ar rcs $(NAME) $@
 
-$(COMPILE_NAME): $(MANDATORY_OBJECTS)
-
-bonus: $(BONUS_OBJECTS) $(MANDATORY_OBJECTS)
-
-$(OBJDIR)/%.o: %.c | $(OBJDIR)
-	$(COMPILER) $(CFLAGS) -c $< -o $@
-	ar rcs $(COMPILE_NAME) $@
-
-$(OBJDIR):
-	mkdir -p $(OBJDIR)
+$(M_OBJS_DIR)/%.o: $(M_DIR)/%.c
+	@mkdir -p $(M_OBJS_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+	ar rcs $(NAME) $@
 
 clean:
-	rm -f $(BONUS_OBJECTS) $(MANDATORY_OBJECTS) 
-	rm -rf $(OBJDIR)
+	rm -f $(M_OBJS) $(B_OBJS)
 
 fclean: clean
-	rm -f $(COMPILE_NAME)
+	rm -f $(NAME)
 
 re: fclean all
 
