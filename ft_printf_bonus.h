@@ -6,7 +6,7 @@
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/11/09 19:05:34 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:38:20 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "ft_printf.h"
 
 # define FLAGS "-0.# +"
+
 # define SIGN_FLAG '+'
 # define SPACE_FLAG ' '
 # define PRECISION_FLAG '.'
@@ -37,9 +38,9 @@ typedef struct s_flags
 }	t_flags;
 
 void	ft_free_lst(t_lst **lst);
-int		ft_lst_is_null(t_lst *lst);
-void	ft_initialize_flags(const char **chr, t_flags *flags);
-void	ft_add_padding(t_lst **lst, t_flags *flags, char arg_type);
-void	ft_add_precision(t_lst **lst, t_flags *f, char at, int *len);
+int		ft_is_null_node_lst(t_lst *lst);
+void	ft_set_flags(const char **chr, t_flags *flags);
+void	ft_set_padding(t_lst **lst, t_flags *flags, char arg_type);
+void	ft_set_precision(t_lst **lst, t_flags *f, char at, int *len);
 
 #endif

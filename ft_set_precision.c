@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_add_precision.c                        :+:      :+:    :+:   */
+/*   ft_set_precision.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -44,7 +44,7 @@ static void	ft_precision_nbr(t_lst **lst, t_flags *flags, int *len)
 	t_lst	*temp_node;
 
 	temp_node = NULL;
-	if (ft_lst_is_null(*lst) && flags->precision_value == 0)
+	if (ft_is_null_node_lst(*lst) && flags->precision_value == 0)
 		return (ft_free_lst(lst));
 	if ((*lst) && (*lst)->chr == '-' && *len <= flags->precision_value)
 	{
@@ -71,7 +71,7 @@ static void	ft_precision_hex(t_lst **lst, t_flags *flags, int *len)
 	t_lst	*temp_node;
 
 	temp_node = NULL;
-	if (ft_lst_is_null(*lst) && flags->precision_value == 0)
+	if (ft_is_null_node_lst(*lst) && flags->precision_value == 0)
 		return (ft_free_lst(lst));
 	if (flags->alternate && (*lst)->next)
 	{
@@ -114,7 +114,7 @@ static void	ft_precision_ptr(t_lst **lst, t_flags *flags, int *len)
 		ft_add_front_lst(lst, ft_new_lst(temp_node->chr));
 }
 
-void	ft_add_precision(t_lst **lst, t_flags *flags, char at, int *len)
+void	ft_set_precision(t_lst **lst, t_flags *flags, char at, int *len)
 {
 	flags->zero_padding = 0;
 	if (at == STR_ARG_TYPE)
@@ -127,7 +127,7 @@ void	ft_add_precision(t_lst **lst, t_flags *flags, char at, int *len)
 		ft_precision_ptr(lst, flags, len);
 	else if (at == UNS_ARG_TYPE)
 	{
-		if (ft_lst_is_null(*lst) && flags->precision_value == 0)
+		if (ft_is_null_node_lst(*lst) && flags->precision_value == 0)
 		{
 			free(*lst);
 			*lst = NULL;

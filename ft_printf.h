@@ -6,7 +6,7 @@
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/11/02 19:22:55 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:38:20 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ void	ft_add_back_lst(t_lst **lst, t_lst *new);
 void	ft_add_front_lst(t_lst **lst, t_lst *new);
 int		ft_size_lst(t_lst *lst);
 
-t_lst	*ft_add_nbr(int n);
-t_lst	*ft_add_chr(char chr);
-t_lst	*ft_add_str(char *str);
-t_lst	*ft_add_ptr(void *ptr);
-t_lst	*ft_add_unbr(unsigned int ui);
-t_lst	*ft_add_hex(unsigned long ul, char *hex_base);
+t_lst	*ft_get_nbr(int n);
+t_lst	*ft_get_chr(char chr);
+t_lst	*ft_get_str(char *str);
+t_lst	*ft_get_ptr(void *ptr);
+t_lst	*ft_get_unbr(unsigned int ui);
+t_lst	*ft_get_hex(unsigned long ul, char *hex_base);
 
 int		ft_printf(const char *fmt, ...);
 

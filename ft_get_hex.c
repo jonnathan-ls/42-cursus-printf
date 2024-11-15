@@ -1,41 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_add_nbr.c                                  :+:      :+:    :+:   */
+/*   ft_get_hrx.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/11/09 18:45:14 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:38:20 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-t_lst	*ft_add_nbr(int n)
+t_lst	*ft_get_hex(unsigned long ul, char *hex_base)
 {
-	long	nbr;
 	t_lst	*lst;
-	t_lst	*sign_node;
 
-	nbr = n;
-	sign_node = NULL;
-	if (nbr < 0)
+	if (ul < 16)
 	{
-		nbr = -nbr;
-		sign_node = ft_new_lst('-');
+		lst = ft_new_lst(hex_base[ul]);
+		return (lst);
 	}
-	if (nbr >= 10)
-	{
-		lst = ft_add_nbr(nbr / 10);
-		ft_add_back_lst(&lst, ft_new_lst(nbr % 10 + '0'));
-	}
-	else
-		lst = ft_new_lst(nbr % 10 + '0');
-	if (sign_node)
-	{
-		ft_add_front_lst(&lst, ft_new_lst('-'));
-		free(sign_node);
-	}
+	lst = ft_get_hex(ul / 16, hex_base);
+	ft_add_back_lst(&lst, ft_new_lst(hex_base[ul % 16]));
 	return (lst);
 }

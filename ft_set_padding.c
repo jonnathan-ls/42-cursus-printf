@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_add_padding.c                                  :+:      :+:    :+:   */
+/*   ft_set_padding.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/11/09 22:50:36 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:38:20 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static void	ft_add_space(t_lst **lst, t_flags *flags, char at, int *len)
 	*len = ft_size_lst(*lst);
 }
 
-void	ft_add_padding(t_lst **lst, t_flags *flags, char arg_type)
+void	ft_set_padding(t_lst **lst, t_flags *flags, char arg_type)
 {
 	int	nodes_size;
 
@@ -116,7 +116,7 @@ void	ft_add_padding(t_lst **lst, t_flags *flags, char arg_type)
 	if (flags->alternate)
 		ft_add_alternate(lst, arg_type, &nodes_size);
 	if (flags->precision)
-		ft_add_precision(lst, flags, arg_type, &nodes_size);
+		ft_set_precision(lst, flags, arg_type, &nodes_size);
 	if (flags->zero_padding && !flags->align_left)
 		ft_add_zero(lst, flags, arg_type, &nodes_size);
 	if (flags->space && !flags->sign)

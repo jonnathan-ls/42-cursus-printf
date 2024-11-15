@@ -6,7 +6,7 @@
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:52:12 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/11/02 19:24:47 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:38:20 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,21 @@ static t_lst	*ft_get_argument(va_list *args, char arg_type)
 
 	lst = NULL;
 	if (arg_type == CHR_ARG_TYPE)
-		lst = ft_add_chr(va_arg(*args, int));
+		lst = ft_get_chr(va_arg(*args, int));
 	else if (arg_type == STR_ARG_TYPE)
-		lst = ft_add_str(va_arg(*args, char *));
+		lst = ft_get_str(va_arg(*args, char *));
 	else if (arg_type == PTR_ARG_TYPE)
-		lst = ft_add_ptr(va_arg(*args, void *));
+		lst = ft_get_ptr(va_arg(*args, void *));
 	else if (arg_type == DIG_ARG_TYPE || arg_type == INT_ARG_TYPE)
-		lst = ft_add_nbr(va_arg(*args, int));
+		lst = ft_get_nbr(va_arg(*args, int));
 	else if (arg_type == UNS_ARG_TYPE)
-		lst = ft_add_unbr(va_arg(*args, unsigned int));
+		lst = ft_get_unbr(va_arg(*args, unsigned int));
 	else if (arg_type == HEX_LOWER_ARG_TYPE)
-		lst = ft_add_hex(va_arg(*args, unsigned int), HEX_BASE_LOWER);
+		lst = ft_get_hex(va_arg(*args, unsigned int), HEX_BASE_LOWER);
 	else if (arg_type == HEX_UPPER_ARG_TYPE)
-		lst = ft_add_hex(va_arg(*args, unsigned int), HEX_BASE_UPPER);
+		lst = ft_get_hex(va_arg(*args, unsigned int), HEX_BASE_UPPER);
 	else if (arg_type == '%')
-		lst = ft_add_chr('%');
+		lst = ft_get_chr('%');
 	return (lst);
 }
 

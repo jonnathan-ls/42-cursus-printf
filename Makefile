@@ -7,18 +7,20 @@
 COMPILER = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SOURCES = ft_utils.c ft_printf.c \
-	ft_add_chr.c ft_add_str.c ft_add_hex.c \
-	ft_add_nbr.c ft_add_unbr.c ft_add_ptr.c
-BONUS_SOURCES = ft_utils_bonus.c ft_printf_bonus.c \
-	ft_add_padding.c ft_add_precision.c ft_utils_precision_bonus.c
-
 OBJDIR = objects
-OBJECTS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
-BONUS_OBJECTS = $(addprefix $(OBJDIR)/, $(BONUS_SOURCES:.c=.o))
-
 NAME = libftprintf.a
 BONUS_NAME = libftprintf.a
+
+SOURCES = ft_utils.c ft_printf.c \
+	ft_get_chr.c ft_get_str.c ft_get_hex.c \
+	ft_get_nbr.c ft_get_unbr.c ft_get_ptr.c
+
+BONUS_SOURCES = ft_utils_bonus.c ft_printf_bonus.c \
+	ft_set_flags.c ft_set_padding.c ft_set_precision.c
+	
+
+OBJECTS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
+BONUS_OBJECTS = $(addprefix $(OBJDIR)/, $(BONUS_SOURCES:.c=.o))
 
 all: $(NAME)
 
