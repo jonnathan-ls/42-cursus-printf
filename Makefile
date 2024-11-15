@@ -28,25 +28,17 @@ BONUS_NAME = libftprintf.a
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	ar rcs $@ $^
 
 bonus: $(BONUS_OBJECTS) $(OBJECTS)
 	ar rcs $(BONUS_NAME) $(BONUS_OBJECTS) $(OBJECTS)
 
 %.o: %.c ft_printf.h
-	$(COMPILER) $(CFLAGS) -c $< -o $@
+	$(COMPILER) $(CFLAGS) -c $< ft_printf.h
+	ar	rcs $(NAME) $@
 
 %.o: %.c ft_printf_bonus.h
-	$(COMPILER) $(CFLAGS) -c $< -o $@
-
-# // TODO PARA COMPILAR SEPARADO e adicionar link separadamente
-# $(NAME): $(OBJECTS)
-
-# %.o: %.c 
-# 	@cc -Wall -Wextra -Werror -c $< $(ft_printf:%.c=%.h)
-# 	@ar rcs $(NAME) $@
-
-# bonus: all $(BONUS_OBJS)
+	$(COMPILER) $(CFLAGS) -c $< ft_printf.h
+	ar	rcs $(BONUS_NAME) $@
 
 clean:
 	rm -f $(OBJECTS) $(BONUS_OBJECTS)
