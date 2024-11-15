@@ -1,9 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/26 14:54:44 by jlacerda          #+#    #+#              #
 #    Updated: 2024/11/02 19:20:03 by jlacerda         ###   ########.fr        #
@@ -19,8 +13,9 @@ SOURCES = ft_utils.c ft_printf.c \
 BONUS_SOURCES = ft_utils_bonus.c ft_printf_bonus.c \
 	ft_add_padding.c ft_add_precision.c ft_utils_precision_bonus.c
 
-OBJECTS = $(SOURCES:.c=.o)
-BONUS_OBJECTS = $(BONUS_SOURCES:.c=.o)
+OBJDIR = objects
+OBJECTS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
+BONUS_OBJECTS = $(addprefix $(OBJDIR)/, $(BONUS_SOURCES:.c=.o))
 
 NAME = libftprintf.a
 BONUS_NAME = libftprintf.a
@@ -30,18 +25,17 @@ all: $(NAME)
 $(NAME): $(OBJECTS)
 
 bonus: $(BONUS_OBJECTS) $(OBJECTS)
-	ar rcs $(BONUS_NAME) $(BONUS_OBJECTS) $(OBJECTS)
 
-%.o: %.c ft_printf.h
-	$(COMPILER) $(CFLAGS) -c $< ft_printf.h
-	ar	rcs $(NAME) $@
+$(OBJDIR)/%.o: %.c | $(OBJDIR)
+	$(COMPILER) $(CFLAGS) -c $< -o $@
+	ar rcs $(NAME) $@
 
-%.o: %.c ft_printf_bonus.h
-	$(COMPILER) $(CFLAGS) -c $< ft_printf.h
-	ar	rcs $(BONUS_NAME) $@
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
 clean:
 	rm -f $(OBJECTS) $(BONUS_OBJECTS)
+	rm -rf $(OBJDIR)
 
 fclean: clean
 	rm -f $(NAME) $(BONUS_NAME)
