@@ -16,26 +16,23 @@ t_lst	*ft_get_nbr(int n)
 {
 	long	nbr;
 	t_lst	*lst;
-	t_lst	*sign_node;
+	int		has_sign;
 
 	nbr = n;
-	sign_node = NULL;
+	has_sign = 0;
 	if (nbr < 0)
 	{
 		nbr = -nbr;
-		sign_node = ft_new_lst('-');
+		has_sign = 1;
 	}
-	if (nbr >= 10)
+	if (nbr > 9)
 	{
 		lst = ft_get_nbr(nbr / 10);
 		ft_add_back_lst(&lst, ft_new_lst(nbr % 10 + '0'));
 	}
 	else
 		lst = ft_new_lst(nbr % 10 + '0');
-	if (sign_node)
-	{
+	if (has_sign)
 		ft_add_front_lst(&lst, ft_new_lst('-'));
-		free(sign_node);
-	}
 	return (lst);
 }

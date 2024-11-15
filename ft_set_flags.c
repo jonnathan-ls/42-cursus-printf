@@ -60,7 +60,7 @@ static int	ft_str_has_flag(char *str, char chr)
 	return (0);
 }
 
-static int	ft_get_flags_with_value(const char **chr, t_flags *flags)
+static int	ft_set_flags_with_value(const char **chr, t_flags *flags)
 {
 	if ((**chr >= '0' && **chr <= '9'))
 	{
@@ -97,7 +97,7 @@ void	ft_set_flags(const char **chr, t_flags *flags)
 			flags->zero_padding = 1;
 		else if (**chr == SPACE_FLAG && !flags->space)
 			flags->space = 1;
-		if (!ft_get_flags_with_value(chr, flags))
+		if (!ft_set_flags_with_value(chr, flags))
 			(*chr)++;
 	}
 }

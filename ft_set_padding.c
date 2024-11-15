@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_set_padding.c                                  :+:      :+:    :+:   */
+/*   ft_set_padding.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "ft_printf_bonus.h"
 
-static void	ft_add_sign(t_lst	**lst, t_flags *flags, char arg_type, int *len)
+static void	ft_set_sign(t_lst	**lst, t_flags *flags, char arg_type, int *len)
 {
 	t_lst	*tmp;
 
@@ -26,7 +26,7 @@ static void	ft_add_sign(t_lst	**lst, t_flags *flags, char arg_type, int *len)
 			{
 				tmp = *lst;
 				ft_add_front_lst(lst, ft_new_lst('+'));
-				if (tmp->chr == '0' && tmp->next == NULL && flags->precision)
+				if (ft_is_null_node_lst(tmp) && flags->precision)
 					(*lst)->next = NULL;
 			}
 		}
@@ -34,7 +34,7 @@ static void	ft_add_sign(t_lst	**lst, t_flags *flags, char arg_type, int *len)
 	*len = ft_size_lst(*lst);
 }
 
-static void	ft_add_alternate(t_lst **lst, char arg_type, int *len)
+static void	ft_set_alternate(t_lst **lst, char arg_type, int *len)
 {
 	if ((*lst) && (*lst)->chr != '0')
 	{
@@ -52,11 +52,11 @@ static void	ft_add_alternate(t_lst **lst, char arg_type, int *len)
 	}
 }
 
-static void	ft_add_zero(t_lst **lst, t_flags *flg, char at, int *len)
+static void	ft_set_zero(t_lst **lst, t_flags *flags, char at, int *len)
 {
 	if (at == PTR_ARG_TYPE && (*lst) && (*lst)->chr != '(')
 	{
-		while ((*len)++ < flg->width_value && (*lst) && (*lst)->next)
+		while ((*len)++ < flags->width_value && (*lst) && (*lst)->next)
 		{
 			(*lst)->next->chr = '0';
 			(*lst)->chr = 'x';
@@ -65,7 +65,7 @@ static void	ft_add_zero(t_lst **lst, t_flags *flg, char at, int *len)
 	}
 	else if (at != STR_ARG_TYPE && at != CHR_ARG_TYPE)
 	{
-		while ((*len)++ < flg->width_value && (*lst) && (*lst)->chr != '(')
+		while (*len < flags->width_value && (*lst) && (*lst)->chr != '(')
 		{
 			if ((*lst) && (*lst)->chr == '-')
 			{
@@ -74,16 +74,17 @@ static void	ft_add_zero(t_lst **lst, t_flags *flg, char at, int *len)
 			}
 			else
 				ft_add_front_lst(lst, ft_new_lst('0'));
+			(*len)++;
 		}
 	}
 	*len = ft_size_lst(*lst);
 }
 
-static void	ft_add_space(t_lst **lst, t_flags *flags, char at, int *len)
+static void	ft_set_space(t_lst **lst, t_flags *flags, char at, int *len)
 {
 	if ((at == DIG_ARG_TYPE || at == INT_ARG_TYPE))
 	{
-		if ((*lst) == NULL || ((*lst)->chr == '0' && (*lst)->next == NULL))
+		if ((*lst) == NULL || ft_is_null_node_lst(*lst))
 			ft_add_front_lst(lst, ft_new_lst(' '));
 		else
 		{
@@ -112,15 +113,15 @@ void	ft_set_padding(t_lst **lst, t_flags *flags, char arg_type)
 
 	nodes_size = ft_size_lst(*lst);
 	if (flags->sign)
-		ft_add_sign(lst, flags, arg_type, &nodes_size);
+		ft_set_sign(lst, flags, arg_type, &nodes_size);
 	if (flags->alternate)
-		ft_add_alternate(lst, arg_type, &nodes_size);
+		ft_set_alternate(lst, arg_type, &nodes_size);
 	if (flags->precision)
 		ft_set_precision(lst, flags, arg_type, &nodes_size);
 	if (flags->zero_padding && !flags->align_left)
-		ft_add_zero(lst, flags, arg_type, &nodes_size);
+		ft_set_zero(lst, flags, arg_type, &nodes_size);
 	if (flags->space && !flags->sign)
-		ft_add_space(lst, flags, arg_type, &nodes_size);
+		ft_set_space(lst, flags, arg_type, &nodes_size);
 	if (flags->align_left)
 	{
 		while (nodes_size++ < flags->width_value)
