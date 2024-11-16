@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf_bonus.h"
+#include "ft_printf.h"
 
 static void	ft_set_sign(t_lst	**lst, t_flags *flags, char arg_type, int *len)
 {

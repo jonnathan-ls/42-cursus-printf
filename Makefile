@@ -14,37 +14,33 @@ COMPILER = cc
 CFLAGS = -Wall -Wextra -Werror
 
 OBJDIR = objects
-COMPILE_NAME = libftprintf.a
+FILE_NAME = libftprintf.a
 
-MANDATORY_SOURCES = ft_utils.c ft_printf.c \
+SOURCES = ft_utils.c ft_utils_extra.c ft_printf.c \
+	ft_set_flags.c ft_set_padding.c ft_set_precision.c \
 	ft_get_chr.c ft_get_str.c ft_get_hex.c \
-	ft_get_nbr.c ft_get_unbr.c ft_get_ptr.c
+	ft_get_nbr.c ft_get_unbr.c ft_get_ptr.c \
 
-BONUS_SOURCES = ft_utils_bonus.c ft_printf_bonus.c \
-	ft_set_flags.c ft_set_padding.c ft_set_precision.c
+OBJECTS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
 
-MANDATORY_OBJECTS = $(addprefix $(OBJDIR)/, $(MANDATORY_SOURCES:.c=.o))
-BONUS_OBJECTS = $(addprefix $(OBJDIR)/, $(BONUS_SOURCES:.c=.o))
+all: $(FILE_NAME)
 
-all: $(COMPILE_NAME)
+$(FILE_NAME): $(OBJECTS)
 
-$(COMPILE_NAME): $(MANDATORY_OBJECTS)
-
-bonus: $(BONUS_OBJECTS) $(MANDATORY_OBJECTS)
+bonus: $(OBJECTS)
 
 $(OBJDIR)/%.o: %.c | $(OBJDIR)
 	$(COMPILER) $(CFLAGS) -c $< -o $@
-	ar rcs $(COMPILE_NAME) $@
+	ar rcs $(FILE_NAME) $@
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
 clean:
-	rm -f $(BONUS_OBJECTS) $(MANDATORY_OBJECTS) 
 	rm -rf $(OBJDIR)
 
 fclean: clean
-	rm -f $(COMPILE_NAME)
+	rm -f $(FILE_NAME)
 
 re: fclean all
 
